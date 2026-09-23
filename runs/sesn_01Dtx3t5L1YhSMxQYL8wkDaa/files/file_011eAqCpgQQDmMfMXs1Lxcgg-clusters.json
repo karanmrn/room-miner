@@ -1,0 +1,603 @@
+{
+ "run": "live-routed-karan-2026-09-23",
+ "mode": "LIVE-ROUTED (EVAL-style output)",
+ "generated": "2026-09-23",
+ "ranking": "distinct founders (cumulative, pain library); ties: number of source types, then paused builds, then founders evidenced in this run, then new-this-run first",
+ "note": "Founders from the 2026-09-23 EVAL calls (priya, tomas, aisha, ben) are counted from the pain library; their transcripts are not in this run's inputs, so no quotes from them appear. Linear/Notion items are the same seed items already counted on 2026-09-23 (no double count).",
+ "needs_briefs": {
+  "karan": "briefs/karan.md"
+ },
+ "evidence_files": [
+  "evidence/call.jsonl",
+  "evidence/call-context.jsonl",
+  "evidence/linear.jsonl",
+  "evidence/notion.jsonl"
+ ],
+ "clusters": [
+  {
+   "id": "silent-run-failures",
+   "name": "Failed or stalled runs fail silently: nobody gets told",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Maya Lin (Orbit Health)",
+    "Jonas Weber (Freightly)",
+    "Tomas (Patchwork)"
+   ],
+   "founders_evidenced_this_run": [
+    "Maya Lin (Orbit Health)",
+    "Jonas Weber (Freightly)"
+   ],
+   "sources": [
+    "linear",
+    "call"
+   ],
+   "paused": [
+    "Tomas (Patchwork)"
+   ],
+   "primitives": [
+    "webhooks",
+    "deployment",
+    "session",
+    "multiagent"
+   ],
+   "quotes": [
+    {
+     "source": "linear",
+     "link": "FFD-1",
+     "author": "Maya Lin (Orbit Health)",
+     "quote": "Our scheduled agent errored at 2am. We only found out when the team asked where the report was.",
+     "evidence_file": "evidence/linear.jsonl"
+    },
+    {
+     "source": "linear",
+     "link": "FFD-2",
+     "author": "Jonas Weber (Freightly)",
+     "quote": "I need to know when the cron run breaks. Right now I check the console by hand every morning.",
+     "evidence_file": "evidence/linear.jsonl"
+    }
+   ],
+   "fix": "API change: webhook events for session failed/errored/terminated on deployments, plus a default idle timeout on multiagent sub-threads that raises thread.idle_timeout to the coordinator and fires the same webhook; doc recipe \"Get pinged when a scheduled run fails\".",
+   "rank": 1,
+   "distinct_founders": 3
+  },
+  {
+   "id": "run-opacity",
+   "name": "Can't reconstruct what a run did, which agent did it, or what it cost",
+   "kind": "blocker",
+   "status": "grew",
+   "founders": [
+    "Tomas (Patchwork)",
+    "Ben (climate-investor newsletter)",
+    "karan"
+   ],
+   "founders_evidenced_this_run": [
+    "karan"
+   ],
+   "sources": [
+    "call"
+   ],
+   "paused": [
+    "Tomas (Patchwork)"
+   ],
+   "primitives": [
+    "session",
+    "multiagent",
+    "budget"
+   ],
+   "quotes": [
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "author": "karan",
+     "quote": "I lost time digging through the trace to find out what happened",
+     "evidence_file": "evidence/call.jsonl"
+    },
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "author": "karan",
+     "quote": "it cost money on a wasted thread.",
+     "evidence_file": "evidence/call.jsonl"
+    },
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q6",
+     "author": "karan",
+     "quote": "a check that proves each agent did its job and what it cost",
+     "evidence_file": "evidence/call-context.jsonl"
+    }
+   ],
+   "fix": "API change: tag every session event with thread_id and agent name, carry a running token/cost total per thread in the event stream, and add a per-thread summary call (last step, wait state, cost) so which agent did what, and at what cost, is one API call, not a trace dig.",
+   "rank": 2,
+   "distinct_founders": 3
+  },
+  {
+   "id": "stale-recurring-runs",
+   "name": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Priya (Lumen Skin)",
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "founders_evidenced_this_run": [
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "sources": [
+    "call",
+    "notion"
+   ],
+   "paused": [
+    "Priya (Lumen Skin)"
+   ],
+   "primitives": [
+    "deployment",
+    "memory store"
+   ],
+   "quotes": [
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Lena Hoffmann (Parcelwise)",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "quote": "It doesn't remember which carriers we already escalated",
+     "evidence_file": "evidence/notion.jsonl"
+    },
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Lena Hoffmann (Parcelwise)",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "quote": "so it re-flags them every day",
+     "evidence_file": "evidence/notion.jsonl"
+    }
+   ],
+   "fix": "API change + doc: deployments inject run context (scheduled_for, run_number, last_successful_run_at) into each session; \"Designing a recurring agent\" guide separating per-run inputs from persistent memory-store state (items already handled).",
+   "rank": 3,
+   "distinct_founders": 2
+  },
+  {
+   "id": "no-quality-scoreboard",
+   "name": "No way to score agent quality over time or across changes",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Dev Patel (Quillstack)",
+    "Omar Haddad (Stackly)"
+   ],
+   "founders_evidenced_this_run": [
+    "Dev Patel (Quillstack)",
+    "Omar Haddad (Stackly)"
+   ],
+   "sources": [
+    "linear",
+    "notion"
+   ],
+   "paused": [],
+   "primitives": [
+    "outcome",
+    "agent"
+   ],
+   "quotes": [
+    {
+     "source": "linear",
+     "link": "FFD-5",
+     "author": "Dev Patel (Quillstack)",
+     "quote": "We changed the instructions last week and I have a feeling the output got worse, but I can't prove it.",
+     "evidence_file": "evidence/linear.jsonl"
+    },
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Omar Haddad (Stackly)",
+     "author": "Omar Haddad (Stackly)",
+     "quote": "I have no scoreboard. I tweak something, eyeball two outputs, and hope.",
+     "evidence_file": "evidence/notion.jsonl"
+    }
+   ],
+   "fix": "API change: persist outcome grader verdicts/scores per session (and per multiagent thread), keyed by agent version, with a list/aggregate endpoint (score by version over time).",
+   "rank": 4,
+   "distinct_founders": 2
+  },
+  {
+   "id": "secrets-in-prompt",
+   "name": "No obvious place for API keys, so they end up in the prompt",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Priya (Lumen Skin)",
+    "Sam Ortiz (Tallybook)"
+   ],
+   "founders_evidenced_this_run": [
+    "Sam Ortiz (Tallybook)"
+   ],
+   "sources": [
+    "call",
+    "linear"
+   ],
+   "paused": [],
+   "primitives": [
+    "vault",
+    "MCP connector"
+   ],
+   "quotes": [
+    {
+     "source": "linear",
+     "link": "FFD-3",
+     "author": "Sam Ortiz (Tallybook)",
+     "quote": "I don't want the key in the prompt.",
+     "evidence_file": "evidence/linear.jsonl"
+    },
+    {
+     "source": "linear",
+     "link": "FFD-3",
+     "author": "Sam Ortiz (Tallybook)",
+     "quote": "What's the right place to put it so the agent can use it but can't leak it?",
+     "evidence_file": "evidence/linear.jsonl"
+    }
+   ],
+   "fix": "Doc: \"Where do API keys go?\" vault quickstart (store in vault, reference from MCP connector/tool config), linked from agent creation, with an API warning when a key-shaped string appears in a system prompt or task.",
+   "rank": 5,
+   "distinct_founders": 2
+  },
+  {
+   "id": "runaway-spend",
+   "name": "Runaway run: no spend cap or stopping point",
+   "kind": "blocker",
+   "status": "carried (no evidence in this run)",
+   "founders": [
+    "Ben (climate-investor newsletter)"
+   ],
+   "founders_evidenced_this_run": [],
+   "sources": [
+    "call"
+   ],
+   "paused": [
+    "Ben (climate-investor newsletter)"
+   ],
+   "primitives": [
+    "budget",
+    "outcome"
+   ],
+   "quotes": [],
+   "fix": "API change: per-session budget cap on by default for scheduled deployments, webhook at 80% and at cap; pair with an outcome stop criterion.",
+   "rank": 6,
+   "distinct_founders": 1
+  },
+  {
+   "id": "private-network-data",
+   "name": "Agent can't reach data inside the company's private network (VPC)",
+   "kind": "blocker",
+   "status": "carried (no evidence in this run)",
+   "founders": [
+    "Aisha (Ledgerline)"
+   ],
+   "founders_evidenced_this_run": [],
+   "sources": [
+    "call"
+   ],
+   "paused": [
+    "Aisha (Ledgerline)"
+   ],
+   "primitives": [
+    "MCP connector",
+    "environment",
+    "vault"
+   ],
+   "quotes": [],
+   "fix": "Doc + reference skill: \"Reach a database inside your VPC\" with a self-hosted, outbound-only MCP server exposing a narrow read-only tool; creds in vault.",
+   "rank": 7,
+   "distinct_founders": 1
+  },
+  {
+   "id": "multiagent-misrouting",
+   "name": "Coordinator hands work (or a placeholder) to the wrong sub-agent",
+   "kind": "blocker",
+   "status": "new",
+   "founders": [
+    "karan"
+   ],
+   "founders_evidenced_this_run": [
+    "karan"
+   ],
+   "sources": [
+    "call"
+   ],
+   "paused": [],
+   "primitives": [
+    "multiagent"
+   ],
+   "quotes": [
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q3",
+     "author": "karan",
+     "quote": "sometimes calling the wrong agent for the task",
+     "evidence_file": "evidence/call.jsonl"
+    },
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q4",
+     "author": "karan",
+     "quote": "It sent a placeholder to the wrong agent thread",
+     "evidence_file": "evidence/call.jsonl"
+    }
+   ],
+   "fix": "API change: handoff validation on multiagent sends. Each callable agent declares a role description and an input contract; a coordinator send whose payload is empty, a known placeholder, or fails the target's contract is rejected back to the coordinator with the list of agents and roles, instead of starting a wasted thread.",
+   "rank": 8,
+   "distinct_founders": 1
+  },
+  {
+   "id": "unverified-completion",
+   "name": "Can't tell whether each agent actually finished its job",
+   "kind": "blocker",
+   "status": "new",
+   "founders": [
+    "karan"
+   ],
+   "founders_evidenced_this_run": [
+    "karan"
+   ],
+   "sources": [
+    "call"
+   ],
+   "paused": [],
+   "primitives": [
+    "outcome",
+    "multiagent",
+    "session"
+   ],
+   "quotes": [
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "author": "karan",
+     "quote": "I stopped trusting the result because I couldn't tell if the task was really done",
+     "evidence_file": "evidence/call.jsonl"
+    },
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q6",
+     "author": "karan",
+     "quote": "a check that proves each agent did its job",
+     "evidence_file": "evidence/call-context.jsonl"
+    }
+   ],
+   "fix": "API change: outcome verdicts per multiagent thread: each sub-agent can carry its own outcome criteria, and the session returns a per-thread verdict record (criteria met yes/no, grader rationale, cost) the founder can read without opening the trace. Same persisted record as the no-quality-scoreboard fix.",
+   "rank": 9,
+   "distinct_founders": 1
+  },
+  {
+   "id": "context-rot-task-drift",
+   "name": "Agent loses track of the task mid-run (context rot, botched memory)",
+   "kind": "blocker",
+   "status": "new",
+   "founders": [
+    "karan"
+   ],
+   "founders_evidenced_this_run": [
+    "karan"
+   ],
+   "sources": [
+    "call"
+   ],
+   "paused": [],
+   "primitives": [
+    "session",
+    "memory store"
+   ],
+   "quotes": [
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q3",
+     "author": "karan",
+     "quote": "the agent loses track of what it needs to be done",
+     "evidence_file": "evidence/call.jsonl"
+    },
+    {
+     "source": "call",
+     "link": "calls/karan.md#Q3",
+     "author": "karan",
+     "quote": "often context rot and memory gets botched",
+     "evidence_file": "evidence/call.jsonl"
+    }
+   ],
+   "fix": "Skill + guide: a \"task ledger\" skill that writes the plan and checklist to a memory store at the start of a run and re-reads/updates it before each step and after any context compaction, so the goal survives long sessions; guide \"Keeping long-running agents on task\".",
+   "rank": 10,
+   "distinct_founders": 1
+  },
+  {
+   "id": "session-file-retrieval",
+   "name": "Can't get output files out of a finished session",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Maya Lin (Orbit Health)"
+   ],
+   "founders_evidenced_this_run": [
+    "Maya Lin (Orbit Health)"
+   ],
+   "sources": [
+    "linear"
+   ],
+   "paused": [],
+   "primitives": [
+    "files API"
+   ],
+   "quotes": [
+    {
+     "source": "linear",
+     "link": "FFD-4",
+     "author": "Maya Lin (Orbit Health)",
+     "quote": "The agent says it wrote report.pdf to outputs, but I can't work out how to download it after the session.",
+     "evidence_file": "evidence/linear.jsonl"
+    },
+    {
+     "source": "linear",
+     "link": "FFD-4",
+     "author": "Maya Lin (Orbit Health)",
+     "quote": "The docs mention a scope thing I don't get.",
+     "evidence_file": "evidence/linear.jsonl"
+    }
+   ],
+   "fix": "Doc: end-to-end \"Get files out of a session\" example (write to outputs, list session files, download after end) with plain-language file scope.",
+   "rank": 11,
+   "distinct_founders": 1
+  },
+  {
+   "id": "sandbox-dependencies",
+   "name": "Sandbox dependency setup eats the first day",
+   "kind": "blocker",
+   "status": "unchanged",
+   "founders": [
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "founders_evidenced_this_run": [
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "sources": [
+    "notion"
+   ],
+   "paused": [],
+   "primitives": [
+    "environment"
+   ],
+   "quotes": [
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Lena Hoffmann (Parcelwise)",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "quote": "Half my first day was fighting pip.",
+     "evidence_file": "evidence/notion.jsonl"
+    },
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Lena Hoffmann (Parcelwise)",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "quote": "The sandbox didn't have pandas and the install kept timing out.",
+     "evidence_file": "evidence/notion.jsonl"
+    }
+   ],
+   "fix": "API change: environments declare packages installed once at build and cached across sessions, longer install timeout; preinstall pandas/numpy.",
+   "rank": 12,
+   "distinct_founders": 1
+  },
+  {
+   "id": "human-approval-gate",
+   "name": "Must have a human approve before the agent acts externally",
+   "kind": "requirement",
+   "status": "carried (no founder evidence in this run)",
+   "founders": [
+    "Aisha (Ledgerline)"
+   ],
+   "founders_evidenced_this_run": [],
+   "sources": [
+    "call"
+   ],
+   "paused": [],
+   "primitives": [
+    "permission policy",
+    "files API"
+   ],
+   "quotes": [],
+   "context": [
+    {
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Mentor takeaways",
+     "author": "mentor notes",
+     "quote": "Recurring theme: people want the agent to act, but only after a human says yes.",
+     "note": "mentor observation, not a founder quote; not counted"
+    }
+   ],
+   "fix": "Doc + skill: \"Draft, then approve\" pattern (no outbound-send tool or confirm-required policy, draft via files API, outcome = draft ready for review).",
+   "rank": 13,
+   "distinct_founders": 1
+  }
+ ],
+ "top3_fixes": [
+  {
+   "rank": 1,
+   "fix_for": [
+    "run-opacity"
+   ],
+   "founders_served": [
+    "Tomas (Patchwork)",
+    "Ben (climate-investor newsletter)",
+    "karan"
+   ],
+   "fix": "API change: tag every session event with thread_id and agent name, carry a running token/cost total per thread in the event stream, and add a per-thread summary call (last step, wait state, cost) so which agent did what, and at what cost, is one API call, not a trace dig."
+  },
+  {
+   "rank": 2,
+   "fix_for": [
+    "silent-run-failures"
+   ],
+   "founders_served": [
+    "Maya Lin (Orbit Health)",
+    "Jonas Weber (Freightly)",
+    "Tomas (Patchwork)"
+   ],
+   "fix": "API change: webhook events for session failed/errored/terminated on deployments, plus a default idle timeout on multiagent sub-threads that raises thread.idle_timeout to the coordinator and fires the same webhook; doc recipe \"Get pinged when a scheduled run fails\"."
+  },
+  {
+   "rank": 3,
+   "fix_for": [
+    "no-quality-scoreboard",
+    "unverified-completion"
+   ],
+   "founders_served": [
+    "Dev Patel (Quillstack)",
+    "Omar Haddad (Stackly)",
+    "karan"
+   ],
+   "fix": "API change: persisted outcome verdicts per session and per multiagent thread (criteria met yes/no, grader rationale, agent version, cost), with a list/aggregate endpoint by agent version."
+  }
+ ],
+ "karan_blocker_map": [
+  {
+   "blocker": "context rot / memory botched",
+   "cluster": "context-rot-task-drift",
+   "evidence": "calls/karan.md#Q3"
+  },
+  {
+   "blocker": "wrong-agent routing / placeholder to wrong thread",
+   "cluster": "multiagent-misrouting",
+   "evidence": "calls/karan.md#Q3, calls/karan.md#Q4"
+  },
+  {
+   "blocker": "can't tell if the task was done",
+   "cluster": "unverified-completion",
+   "evidence": "calls/karan.md#Q5"
+  },
+  {
+   "blocker": "digging through the trace",
+   "cluster": "run-opacity",
+   "evidence": "calls/karan.md#Q5"
+  },
+  {
+   "blocker": "cost of wasted threads",
+   "cluster": "run-opacity",
+   "evidence": "calls/karan.md#Q5"
+  },
+  {
+   "blocker": "manual triage forgotten (status quo)",
+   "cluster": null,
+   "evidence": "calls/karan.md#Q2",
+   "note": "the job the agent replaces, not a CMA blocker"
+  }
+ ],
+ "unclustered": [
+  {
+   "link": "calls/karan.md#Q2",
+   "reason": "status quo / job-to-be-done, not a CMA blocker"
+  },
+  {
+   "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Omar Haddad (Stackly)",
+   "author": "Omar Haddad (Stackly)",
+   "reason": "note-taker paraphrase (notion-004); context for no-quality-scoreboard, not quoted"
+  },
+  {
+   "link": "/mnt/session/uploads/notion/office-hours-notes.md#Mentor takeaways",
+   "author": "mentor notes",
+   "reason": "notion-005 scheduling / manual run endpoint: mentor observation, uncounted"
+  }
+ ]
+}

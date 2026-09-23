@@ -1,0 +1,73 @@
+🧑 you: No, that covers it
+   📤 chief-of-staff → discovery-agent: 'FOUNDER: No, that covers it'
+
+🤖 chief-of-staff: I've passed your answer to the discovery agent. It should now write your transcript and needs brief and send back CALL COMPLETE. When it does, I'll start the miner and then the data-analyst.
+
+   📥 discovery-agent → chief-of-staff: 'CALL COMPLETE\n\nFounder: karan. I asked 7 questions (the limit is 8).\n- Transcript: /mnt/session/outputs/calls/'
+   🧵 new thread → miner
+   📤 chief-of-staff → miner: 'Mode: LIVE-ROUTED (treat as EVAL-style output: write /mnt/session/outputs/room-report.md plus your usual clust'
+   🔀 ROUTING → miner: group your call and the Linear and Notion evidence into ranked pain clusters, and write room-report.md with a top-3-fixes section backed by exact quotes | trigger: "every Monday, a ranked list of the top 3 fixes with quotes"
+
+🤖 chief-of-staff: The call is complete. Your transcript is in calls/karan.md and your needs brief is in briefs/karan.md.
+
+ROUTING → miner: group your call and the Linear and Notion evidence into ranked pain clusters, and write room-report.md with a top-3-fixes section backed by exact quotes | trigger: "every Monday, a ranked list of the top 3 fixes with quotes"
+
+The data-analyst starts once the miner is done, because it works from the miner's output.
+
+   📥 miner → chief-of-staff: 'The miner run is done. The report has 12 pain clusters plus 1 requirement across 11 founders (the 10 already i'
+   🧵 new thread → data-analyst
+   📤 chief-of-staff → data-analyst: 'Mode: LIVE-ROUTED (treat as EVAL-style build). The miner has finished. Build /mnt/session/outputs/data/room.db'
+   🔀 ROUTING → data-analyst: build room.db, metrics.json and a dashboard that shows the top 3 fixes and checks, for each agent, whether its expected files exist. Cost will show as "not available" because we have no cost data for this session. | trigger: "a check that proves each agent did its job and what it cost"
+
+🤖 chief-of-staff: The miner has finished and room-report.md is written.
+
+ROUTING → data-analyst: build room.db, metrics.json and a dashboard that shows the top 3 fixes and checks, for each agent, whether its expected files exist. Cost will show as "not available" because we have no cost data for this session. | trigger: "a check that proves each agent did its job and what it cost"
+
+I'll send you the final summary when the data-analyst reports back.
+
+   📥 data-analyst → chief-of-staff: "The database, metrics file and dashboard are built from the miner's output. 194 of 194 checks pass, with 0 mis"
+
+🤖 chief-of-staff: The call is complete. You triggered all four specialists, each has finished, and 194 of 194 consistency checks pass. Two limits apply to everything below:
+- The Linear and Notion files are seed/mock data, and none of the Notion material mentions you. Your own evidence is the call alone.
+- There's no cost data in this session, so every cost figure shows as "not available".
+
+## 1. Your needs brief
+- **What you want:** an agent that turns founder interviews into prioritised product fixes. Today you read transcripts in Notion by hand, guess priorities, and then forget to fix the bugs or build the features.
+- **What's in the way:** the agent loses track of the task ("context rot and memory gets botched") and calls the wrong agent ("It sent a placeholder to the wrong agent thread"). Working out what happened means digging through traces, and you can't tell whether a task really finished, so you don't trust it. Wasted threads cost money.
+- **When it's done:** "every Monday, a ranked list of the top 3 fixes with quotes, and a check that proves each agent did its job and what it cost."
+
+## 2. Routing table
+| Specialist | Called? | Trigger (your words) or reason |
+|---|---|---|
+| discovery-agent | Yes, at the start | Required for every live call. It asked 7 of 8 questions. |
+| notion-scout | Yes, after Q2 | "I read transcripts manually in Notion" |
+| linear-scout | Yes, after Q2 | "i forget and dont fix the bugs or build the features" |
+| miner | Yes, after the call ended | "guess priorities" and "every Monday, a ranked list of the top 3 fixes with quotes" |
+| data-analyst | Yes, after the miner | "I couldn't tell if the task was really done, and it cost money on a wasted thread" and "a check that proves each agent did its job and what it cost" |
+| founder-* personas | No | You are the founder, so no simulated founder was needed. |
+
+No stray threads were opened.
+
+## 3. Top findings
+- **Your pains overlap with other founders'.** Your trace-digging and wasted-thread cost fall into the "can't see what each run and agent did" cluster (run-opacity), which now has 3 founders, tied for the largest. Your "couldn't tell if it was done" sits next to the "no quality scoreboard" cluster (2 founders).
+- **Three of your pains are new clusters, 1 founder each so far:** calls to the wrong agent, context rot within a run, and completion nobody can verify.
+- **The top 3 fixes across all 11 founders:**
+  1. Trace and cost for each agent thread.
+  2. Webhooks when a run fails, plus a timeout for sub-agents that stall.
+  3. A stored pass/fail verdict for each agent.
+- **Your Linear tickets:** the export has no status field, so I can't tell which bugs or features are still open.
+
+**The one fix that would help you most:** a stored pass/fail verdict for each agent's thread. It would record whether that agent's criteria were met, why, and what the thread cost. That record is the second half of your Monday list. It would have caught the misrouted placeholder straight away (that step fails, and you see what it cost), so you'd no longer need to dig through traces. You can do a rough version now: this run kept a manifest listing each specialist's expected files and a record of every agent thread, and a per-agent check compared them against what actually exists. That's the dashboard's did-its-job table, and it passed 4 of 4. Only the cost column is empty until there's real cost data.
+
+Files are in /mnt/session/outputs:
+- calls/karan.md
+- briefs/karan.md
+- room-report.md
+- clusters.json
+- dashboard.html
+- data/
+- run-manifest.json
+- work/threads.json
+
+The run journal entry is saved to memory.
+

@@ -1,0 +1,12 @@
+{
+ "miner": [
+  "I want an agent that turns founder interviews into prioritized product fixes",
+  "I read transcripts manually in Notion and guess priorities",
+  "every Monday, a ranked list of the top 3 fixes with quotes"
+ ],
+ "data-analyst": [
+  "I couldn't tell if the task was really done, and it cost money on a wasted thread",
+  "a check that proves each agent did its job and what it cost"
+ ],
+ "status": "both dispatched after CALL COMPLETE and completed (miner sthr_01AqmfMTUJ3KpfEfKikDeX66, data-analyst sthr_013ciPM7afyxxdmT4n9GJpox)"
+}

@@ -1,0 +1,90 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "check": "no simulated founders in live mode",
+      "pass": true,
+      "detail": "none",
+      "hard": true
+    },
+    {
+      "check": "one discovery call per founder",
+      "pass": true,
+      "detail": "1 discovery threads for 1 founders",
+      "hard": true
+    },
+    {
+      "check": "linear-scout dispatched",
+      "pass": true,
+      "detail": "1 threads",
+      "hard": true
+    },
+    {
+      "check": "notion-scout dispatched",
+      "pass": true,
+      "detail": "1 threads",
+      "hard": true
+    },
+    {
+      "check": "miner dispatched",
+      "pass": true,
+      "detail": "1 threads",
+      "hard": true
+    },
+    {
+      "check": "data-analyst dispatched",
+      "pass": true,
+      "detail": "1 threads",
+      "hard": true
+    },
+    {
+      "check": "miner started after scouts",
+      "pass": true,
+      "detail": "miner 2026-09-23T16:25:55.063615Z vs scouts 2026-09-23T16:18:19.424260Z",
+      "hard": true
+    },
+    {
+      "check": "data-analyst started after miner",
+      "pass": true,
+      "detail": "",
+      "hard": true
+    },
+    {
+      "check": "no unexpected agents called",
+      "pass": true,
+      "detail": "none",
+      "hard": true
+    },
+    {
+      "check": "questions relayed verbatim",
+      "pass": true,
+      "detail": "9/9 exact",
+      "hard": true
+    },
+    {
+      "check": "at most 8 questions per call",
+      "pass": true,
+      "detail": "7 distinct questions",
+      "hard": true
+    },
+    {
+      "check": "answers relayed verbatim",
+      "pass": true,
+      "detail": "7/7 exact",
+      "hard": true
+    },
+    {
+      "check": "manifest: every step done",
+      "pass": true,
+      "detail": "5 steps, not done: []",
+      "hard": true
+    },
+    {
+      "check": "manifest matches trace",
+      "pass": true,
+      "detail": "consistent",
+      "hard": true
+    }
+  ],
+  "threads": 6
+}

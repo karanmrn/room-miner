@@ -1,0 +1,76 @@
+{
+ "mode": "LIVE-ROUTED",
+ "founder": "karan",
+ "steps": [
+  {
+   "step": 1,
+   "task": "Discovery call with live founder karan",
+   "delegated_to": [
+    "room-miner-discovery-agent"
+   ],
+   "outputs": [
+    "calls/karan.md",
+    "briefs/karan.md"
+   ],
+   "status": "done",
+   "notes": "thread sthr_01T5K3jQZv8REVEJPRF1ew1H; 7/8 questions, CALL COMPLETE. Discovery agent could not read lessons (prompt path /mnt/memory/discovery-lessons/ missing; real store room-miner-discovery-lessons is empty)"
+  },
+  {
+   "step": 2,
+   "task": "notion-scout: read /mnt/session/uploads/notion/office-hours-notes.md",
+   "delegated_to": [
+    "room-miner-notion-scout"
+   ],
+   "outputs": [
+    "evidence/notion.jsonl"
+   ],
+   "status": "done",
+   "notes": "trigger: \"I read transcripts manually in Notion\"; thread sthr_016SDQJooXS7vQMNNShVPY5i; 6 items (3 founder quotes, 1 paraphrase, 2 mentor notes) from 1 seed/mock page; nothing about karan"
+  },
+  {
+   "step": 3,
+   "task": "linear-scout: read /mnt/session/uploads/linear/tickets.json, all time",
+   "delegated_to": [
+    "room-miner-linear-scout"
+   ],
+   "outputs": [
+    "evidence/linear.jsonl"
+   ],
+   "status": "done",
+   "notes": "trigger: \"dont fix the bugs or build the features\"; thread sthr_01P9sXh1pSXgNomdjLEZRiDN; 5 items from 5 seed/mock FFD tickets; export has no status field, so open/closed state unknown"
+  },
+  {
+   "step": 4,
+   "task": "miner: cluster and rank pains across call + Linear + Notion into room-report.md with top 3 fixes and quotes",
+   "delegated_to": [
+    "room-miner-miner"
+   ],
+   "outputs": [
+    "room-report.md",
+    "clusters.json",
+    "evidence/call.jsonl",
+    "evidence/call-context.jsonl"
+   ],
+   "status": "done",
+   "notes": "trigger: \"every Monday, a ranked list of the top 3 fixes with quotes\" / \"guess priorities\"; 12 clusters + 1 requirement across 11 founders; 3 new clusters from karan; run-opacity grew to 3; thread sthr_01AqmfMTUJ3KpfEfKikDeX66"
+  },
+  {
+   "step": 5,
+   "task": "data-analyst: build data/room.db, data/metrics.json, dashboard.html incl. per-agent done-check and cost view",
+   "delegated_to": [
+    "room-miner-data-analyst"
+   ],
+   "outputs": [
+    "data/room.db",
+    "data/metrics.json",
+    "dashboard.html",
+    "data/README.md",
+    "data/build.py",
+    "data/render.py"
+   ],
+   "status": "done",
+   "notes": "trigger: \"a check that proves each agent did its job and what it cost\" / \"I couldn't tell if the task was really done, and it cost money on a wasted thread\"; thread sthr_013ciPM7afyxxdmT4n9GJpox; 194/194 checks, 0 mismatches vs report; cost shown as not available (no telemetry)"
+  }
+ ],
+ "stray_threads": []
+}

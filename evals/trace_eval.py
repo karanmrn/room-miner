@@ -1,6 +1,7 @@
 """Trace eval: did the Chief of Staff make the right calls? Reads a finished session's threads and events.
 
     python3 evals/trace_eval.py <session_id> [founder-slug ...]     (default founders: priya tomas aisha ben)
+    python3 evals/trace_eval.py <session_id> --live <slug>          (live mode: the human is the founder)
 
 Writes runs/<session_id>/trace-eval.json (score.py folds its pass/fail into the scoreboard).
 """
@@ -38,7 +39,7 @@ def all_pages(path):
 text = lambda e: "".join(c.get("text", "") for c in e.get("content", []) if isinstance(c, dict)).strip()
 
 
-def main(sid, founders):
+def main(sid, founders, live=False):
     threads = all_pages(f"/sessions/{sid}/threads?limit=100")
     events = all_pages(f"/sessions/{sid}/events?limit=500")
     by_agent = {}
@@ -50,8 +51,11 @@ def main(sid, founders):
     checks = []
     add = lambda name, ok, detail, hard=True: checks.append({"check": name, "pass": bool(ok), "detail": detail, "hard": hard})
 
-    # 1. one discovery thread and one founder thread per named founder
-    for f in founders:
+    # 1. one discovery thread and one founder thread per named founder (live: no founder agents at all)
+    if live:
+        fa = sorted(a for a in by_agent if a.startswith("founder-"))
+        add("no simulated founders in live mode", not fa, f"started: {fa}" if fa else "none")
+    for f in ([] if live else founders):
         n = len(by_agent.get(f"founder-{f}", []))
         add(f"one thread for founder-{f}", n == 1, f"{n} threads (extra threads mean a message went to the agent instead of its recorded thread)")
     nd = len(by_agent.get("discovery-agent", []))
@@ -65,7 +69,7 @@ def main(sid, founders):
         add("miner started after scouts", created("miner") > max(scouts), f"miner {created('miner')} vs scouts {max(scouts)}")
     if created("miner") and created("data-analyst"):
         add("data-analyst started after miner", created("data-analyst") > created("miner"), "")
-    expected = {"chief-of-staff", "discovery-agent", "linear-scout", "notion-scout", "miner", "data-analyst"} | {f"founder-{f}" for f in founders}
+    expected = {"chief-of-staff", "discovery-agent", "linear-scout", "notion-scout", "miner", "data-analyst"} | ({f"founder-{f}" for f in founders} if not live else set())
     extra = sorted(set(by_agent) - expected)
     add("no unexpected agents called", not extra, f"unexpected: {extra}" if extra else "none")
 
@@ -75,10 +79,18 @@ def main(sid, founders):
             for e in events if e["type"] == "agent.thread_message_sent"]
     from_discovery = {m for tid, m in received if tid_agent.get(tid) == "discovery-agent"}
     from_founders = {m for tid, m in received if tid_agent.get(tid, "").startswith("founder-")}
+    if live:  # the human's replies are user.message events on the primary thread
+        from_founders = {text(e) for e in events if e["type"] == "user.message"}
     q_to_founders = [(tid, m) for tid, m in sent if tid_agent.get(tid, "").startswith("founder-")]
     a_to_discovery = [m.removeprefix("FOUNDER:").strip() for tid, m in sent
                       if tid_agent.get(tid) == "discovery-agent" and m.startswith("FOUNDER:")]
-    if q_to_founders:
+    if live:
+        relayed_q = [text(e) for e in events if e["type"] == "agent.message" and "QUESTION:" in text(e)]
+        qs = [m.split("QUESTION:", 1)[1].strip() for m in relayed_q]
+        exact_q = sum(q in from_discovery for q in qs)
+        add("questions relayed verbatim", qs and exact_q == len(qs), f"{exact_q}/{len(qs)} exact")
+        add("at most 8 questions per call", len(set(qs)) <= 8, f"{len(set(qs))} distinct questions")
+    elif q_to_founders:
         exact_q = sum(m in from_discovery for _, m in q_to_founders)
         add("questions relayed verbatim", exact_q == len(q_to_founders), f"{exact_q}/{len(q_to_founders)} exact")
         per_founder = {}
@@ -116,4 +128,8 @@ def main(sid, founders):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2:] or ["priya", "tomas", "aisha", "ben"])
+    args = sys.argv[2:]
+    if args[:1] == ["--live"]:
+        main(sys.argv[1], args[1:] or ["karan"], live=True)
+    else:
+        main(sys.argv[1], args or ["priya", "tomas", "aisha", "ben"])

@@ -1,0 +1,4 @@
+{"source": "call", "author": "karan", "timestamp": null, "text": "I read transcripts manually in Notion and guess priorities, then i forget and dont fix the bugs or build the features", "link": "calls/karan.md#Q2"}
+{"source": "call", "author": "karan", "timestamp": null, "text": "I get lost and the agent loses track of what it needs to be done, often context rot and memory gets botched. Lot of things going wrong , sometimes calling the wrong agent for the task", "link": "calls/karan.md#Q3"}
+{"source": "call", "author": "karan", "timestamp": null, "text": "It sent a placeholder to the wrong agent thread", "link": "calls/karan.md#Q4"}
+{"source": "call", "author": "karan", "timestamp": null, "text": "All three: I lost time digging through the trace to find out what happened, I stopped trusting the result because I couldn't tell if the task was really done, and it cost money on a wasted thread.", "link": "calls/karan.md#Q5"}

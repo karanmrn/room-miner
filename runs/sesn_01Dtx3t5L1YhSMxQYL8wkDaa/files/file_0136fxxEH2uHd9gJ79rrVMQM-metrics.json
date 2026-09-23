@@ -1,0 +1,2183 @@
+{
+ "run": "live-routed-karan-2026-09-23",
+ "previous_run": "eval-2026-09-23",
+ "mode": "LIVE-ROUTED",
+ "founder": "karan",
+ "generated_by": "data/build.py",
+ "generated_at": "2026-09-23T16:43:56Z",
+ "headline": {
+  "distinct_founders": 11,
+  "new_founders_this_run": 1,
+  "new_founder_names": [
+   "karan"
+  ],
+  "founders_evidenced_this_run": 7,
+  "founders_paused_or_stopped": 4,
+  "founders_paused_or_stopped_names": [
+   "Aisha",
+   "Ben",
+   "Priya",
+   "Tomas"
+  ],
+  "clusters_total": 13,
+  "blocker_clusters": 12,
+  "requirement_clusters": 1,
+  "clusters_new": 3,
+  "clusters_growing": 1,
+  "clusters_unchanged": 9,
+  "evidence_items_this_run": 18,
+  "cluster_quotes": 21,
+  "cluster_quotes_verbatim": 21,
+  "report_quotes": 33,
+  "report_quotes_verbatim": 33,
+  "agent_steps_checked": 4,
+  "agent_steps_passed": 4,
+  "stray_threads": 0,
+  "run_cost": "not available",
+  "mismatches_vs_report": 0
+ },
+ "founder_definition_of_done": {
+  "quote": "every Monday, a ranked list of the top 3 fixes with quotes, and a check that proves each agent did its job and what it cost.",
+  "author": "karan",
+  "link": "calls/karan.md#Q6",
+  "evidence_id": "call-context:karan:Q6"
+ },
+ "top3_fixes": [
+  {
+   "rank": 1,
+   "fix_for": [
+    "run-opacity"
+   ],
+   "founders_served": 3,
+   "founder_names": [
+    "Tomas",
+    "Ben",
+    "karan"
+   ],
+   "fix": "API change: tag every session event with thread_id and agent name, carry a running token/cost total per thread in the event stream, and add a per-thread summary call (last step, wait state, cost) so which agent did what, and at what cost, is one API call, not a trace dig.",
+   "quotes": [
+    {
+     "quote": "I lost time digging through the trace to find out what happened",
+     "author": "karan",
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "cluster": "run-opacity",
+     "verbatim": true
+    },
+    {
+     "quote": "it cost money on a wasted thread.",
+     "author": "karan",
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "cluster": "run-opacity",
+     "verbatim": true
+    },
+    {
+     "quote": "a check that proves each agent did its job and what it cost",
+     "author": "karan",
+     "source": "call",
+     "link": "calls/karan.md#Q6",
+     "cluster": "run-opacity",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 2,
+   "fix_for": [
+    "silent-run-failures"
+   ],
+   "founders_served": 3,
+   "founder_names": [
+    "Maya Lin",
+    "Jonas Weber",
+    "Tomas"
+   ],
+   "fix": "API change: webhook events for session failed/errored/terminated on deployments, plus a default idle timeout on multiagent sub-threads that raises thread.idle_timeout to the coordinator and fires the same webhook; doc recipe \"Get pinged when a scheduled run fails\".",
+   "quotes": [
+    {
+     "quote": "Our scheduled agent errored at 2am. We only found out when the team asked where the report was.",
+     "author": "Maya Lin",
+     "source": "linear",
+     "link": "FFD-1",
+     "cluster": "silent-run-failures",
+     "verbatim": true
+    },
+    {
+     "quote": "I need to know when the cron run breaks. Right now I check the console by hand every morning.",
+     "author": "Jonas Weber",
+     "source": "linear",
+     "link": "FFD-2",
+     "cluster": "silent-run-failures",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 3,
+   "fix_for": [
+    "no-quality-scoreboard",
+    "unverified-completion"
+   ],
+   "founders_served": 3,
+   "founder_names": [
+    "Dev Patel",
+    "Omar Haddad",
+    "karan"
+   ],
+   "fix": "API change: persisted outcome verdicts per session and per multiagent thread (criteria met yes/no, grader rationale, agent version, cost), with a list/aggregate endpoint by agent version.",
+   "quotes": [
+    {
+     "quote": "We changed the instructions last week and I have a feeling the output got worse, but I can't prove it.",
+     "author": "Dev Patel",
+     "source": "linear",
+     "link": "FFD-5",
+     "cluster": "no-quality-scoreboard",
+     "verbatim": true
+    },
+    {
+     "quote": "I have no scoreboard. I tweak something, eyeball two outputs, and hope.",
+     "author": "Omar Haddad",
+     "source": "notion",
+     "link": "/mnt/session/uploads/notion/office-hours-notes.md#Session with Omar Haddad (Stackly)",
+     "cluster": "no-quality-scoreboard",
+     "verbatim": true
+    },
+    {
+     "quote": "I stopped trusting the result because I couldn't tell if the task was really done",
+     "author": "karan",
+     "source": "call",
+     "link": "calls/karan.md#Q5",
+     "cluster": "unverified-completion",
+     "verbatim": true
+    },
+    {
+     "quote": "a check that proves each agent did its job",
+     "author": "karan",
+     "source": "call",
+     "link": "calls/karan.md#Q6",
+     "cluster": "unverified-completion",
+     "verbatim": true
+    }
+   ]
+  }
+ ],
+ "top_clusters_by_founders": [
+  {
+   "rank": 1,
+   "id": "silent-run-failures",
+   "name": "Failed or stalled runs fail silently: nobody gets told",
+   "kind": "blocker",
+   "founders": 3,
+   "founder_names": [
+    "Maya Lin",
+    "Jonas Weber",
+    "Tomas"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "linear",
+    "call"
+   ],
+   "primitives": [
+    "webhooks",
+    "deployment",
+    "session",
+    "multiagent"
+   ],
+   "paused": [
+    "Tomas"
+   ],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 2,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: webhook events for session failed/errored/terminated on deployments, plus a default idle timeout on multiagent sub-threads that raises thread.idle_timeout to the coordinator and fires the same webhook; doc recipe \"Get pinged when a scheduled run fails\"."
+  },
+  {
+   "rank": 2,
+   "id": "run-opacity",
+   "name": "Can't reconstruct what a run did, which agent did it, or what it cost",
+   "kind": "blocker",
+   "founders": 3,
+   "founder_names": [
+    "Tomas",
+    "Ben",
+    "karan"
+   ],
+   "status": "growing",
+   "status_raw": "grew",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "session",
+    "multiagent",
+    "budget"
+   ],
+   "paused": [
+    "Tomas"
+   ],
+   "quotes_this_run": 3,
+   "evidence_items_this_run": 2,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: tag every session event with thread_id and agent name, carry a running token/cost total per thread in the event stream, and add a per-thread summary call (last step, wait state, cost) so which agent did what, and at what cost, is one API call, not a trace dig."
+  },
+  {
+   "rank": 3,
+   "id": "stale-recurring-runs",
+   "name": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs",
+   "kind": "blocker",
+   "founders": 2,
+   "founder_names": [
+    "Priya",
+    "Lena Hoffmann"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "call",
+    "notion"
+   ],
+   "primitives": [
+    "deployment",
+    "memory store"
+   ],
+   "paused": [
+    "Priya"
+   ],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 1,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change + doc: deployments inject run context (scheduled_for, run_number, last_successful_run_at) into each session; \"Designing a recurring agent\" guide separating per-run inputs from persistent memory-store state (items already handled)."
+  },
+  {
+   "rank": 4,
+   "id": "no-quality-scoreboard",
+   "name": "No way to score agent quality over time or across changes",
+   "kind": "blocker",
+   "founders": 2,
+   "founder_names": [
+    "Dev Patel",
+    "Omar Haddad"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "linear",
+    "notion"
+   ],
+   "primitives": [
+    "outcome",
+    "agent"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 2,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: persist outcome grader verdicts/scores per session (and per multiagent thread), keyed by agent version, with a list/aggregate endpoint (score by version over time)."
+  },
+  {
+   "rank": 5,
+   "id": "secrets-in-prompt",
+   "name": "No obvious place for API keys, so they end up in the prompt",
+   "kind": "blocker",
+   "founders": 2,
+   "founder_names": [
+    "Priya",
+    "Sam Ortiz"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "call",
+    "linear"
+   ],
+   "primitives": [
+    "vault",
+    "MCP connector"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 1,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "Doc: \"Where do API keys go?\" vault quickstart (store in vault, reference from MCP connector/tool config), linked from agent creation, with an API warning when a key-shaped string appears in a system prompt or task."
+  },
+  {
+   "rank": 6,
+   "id": "runaway-spend",
+   "name": "Runaway run: no spend cap or stopping point",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "Ben"
+   ],
+   "status": "unchanged",
+   "status_raw": "carried (no evidence in this run)",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "budget",
+    "outcome"
+   ],
+   "paused": [
+    "Ben"
+   ],
+   "quotes_this_run": 0,
+   "evidence_items_this_run": 0,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: per-session budget cap on by default for scheduled deployments, webhook at 80% and at cap; pair with an outcome stop criterion."
+  },
+  {
+   "rank": 7,
+   "id": "private-network-data",
+   "name": "Agent can't reach data inside the company's private network (VPC)",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "Aisha"
+   ],
+   "status": "unchanged",
+   "status_raw": "carried (no evidence in this run)",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "MCP connector",
+    "environment",
+    "vault"
+   ],
+   "paused": [
+    "Aisha"
+   ],
+   "quotes_this_run": 0,
+   "evidence_items_this_run": 0,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "Doc + reference skill: \"Reach a database inside your VPC\" with a self-hosted, outbound-only MCP server exposing a narrow read-only tool; creds in vault."
+  },
+  {
+   "rank": 8,
+   "id": "multiagent-misrouting",
+   "name": "Coordinator hands work (or a placeholder) to the wrong sub-agent",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "karan"
+   ],
+   "status": "new",
+   "status_raw": "new",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "multiagent"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 2,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: handoff validation on multiagent sends. Each callable agent declares a role description and an input contract; a coordinator send whose payload is empty, a known placeholder, or fails the target's contract is rejected back to the coordinator with the list of agents and roles, instead of starting a wasted thread."
+  },
+  {
+   "rank": 9,
+   "id": "unverified-completion",
+   "name": "Can't tell whether each agent actually finished its job",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "karan"
+   ],
+   "status": "new",
+   "status_raw": "new",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "outcome",
+    "multiagent",
+    "session"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 2,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: outcome verdicts per multiagent thread: each sub-agent can carry its own outcome criteria, and the session returns a per-thread verdict record (criteria met yes/no, grader rationale, cost) the founder can read without opening the trace. Same persisted record as the no-quality-scoreboard fix."
+  },
+  {
+   "rank": 10,
+   "id": "context-rot-task-drift",
+   "name": "Agent loses track of the task mid-run (context rot, botched memory)",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "karan"
+   ],
+   "status": "new",
+   "status_raw": "new",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "session",
+    "memory store"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 1,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "Skill + guide: a \"task ledger\" skill that writes the plan and checklist to a memory store at the start of a run and re-reads/updates it before each step and after any context compaction, so the goal survives long sessions; guide \"Keeping long-running agents on task\"."
+  },
+  {
+   "rank": 11,
+   "id": "session-file-retrieval",
+   "name": "Can't get output files out of a finished session",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "Maya Lin"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "linear"
+   ],
+   "primitives": [
+    "files API"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 1,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "Doc: end-to-end \"Get files out of a session\" example (write to outputs, list session files, download after end) with plain-language file scope."
+  },
+  {
+   "rank": 12,
+   "id": "sandbox-dependencies",
+   "name": "Sandbox dependency setup eats the first day",
+   "kind": "blocker",
+   "founders": 1,
+   "founder_names": [
+    "Lena Hoffmann"
+   ],
+   "status": "unchanged",
+   "status_raw": "unchanged",
+   "sources": [
+    "notion"
+   ],
+   "primitives": [
+    "environment"
+   ],
+   "paused": [],
+   "quotes_this_run": 2,
+   "evidence_items_this_run": 1,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "API change: environments declare packages installed once at build and cached across sessions, longer install timeout; preinstall pandas/numpy."
+  },
+  {
+   "rank": 13,
+   "id": "human-approval-gate",
+   "name": "Must have a human approve before the agent acts externally",
+   "kind": "requirement",
+   "founders": 1,
+   "founder_names": [
+    "Aisha"
+   ],
+   "status": "unchanged",
+   "status_raw": "carried (no founder evidence in this run)",
+   "sources": [
+    "call"
+   ],
+   "primitives": [
+    "permission policy",
+    "files API"
+   ],
+   "paused": [],
+   "quotes_this_run": 0,
+   "evidence_items_this_run": 0,
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "fix": "Doc + skill: \"Draft, then approve\" pattern (no outbound-send tool or confirm-required policy, draft via files API, outcome = draft ready for review)."
+  }
+ ],
+ "pains_by_primitive": {
+  "method": "Founder-level: a primitive counts a founder only where that founder's own evidence implicates it (attribution from pain-library _index.md; blocker clusters only). Same method as the room-report.md tally.",
+  "rows": [
+   {
+    "primitive": "session",
+    "founders": 5,
+    "founder_names": [
+     "Maya",
+     "Jonas",
+     "Tomas",
+     "Ben",
+     "karan"
+    ],
+    "blocker_clusters": 4,
+    "cluster_ids": [
+     "silent-run-failures",
+     "run-opacity",
+     "unverified-completion",
+     "context-rot-task-drift"
+    ],
+    "founders_if_counted_per_cluster": 5
+   },
+   {
+    "primitive": "outcome",
+    "founders": 4,
+    "founder_names": [
+     "Ben",
+     "Dev",
+     "Omar",
+     "karan"
+    ],
+    "blocker_clusters": 3,
+    "cluster_ids": [
+     "no-quality-scoreboard",
+     "runaway-spend",
+     "unverified-completion"
+    ],
+    "founders_if_counted_per_cluster": 4
+   },
+   {
+    "primitive": "deployment",
+    "founders": 4,
+    "founder_names": [
+     "Maya",
+     "Jonas",
+     "Priya",
+     "Lena"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "silent-run-failures",
+     "stale-recurring-runs"
+    ],
+    "founders_if_counted_per_cluster": 5
+   },
+   {
+    "primitive": "MCP connector",
+    "founders": 3,
+    "founder_names": [
+     "Priya",
+     "Sam",
+     "Aisha"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "secrets-in-prompt",
+     "private-network-data"
+    ],
+    "founders_if_counted_per_cluster": 3
+   },
+   {
+    "primitive": "vault",
+    "founders": 3,
+    "founder_names": [
+     "Priya",
+     "Sam",
+     "Aisha"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "secrets-in-prompt",
+     "private-network-data"
+    ],
+    "founders_if_counted_per_cluster": 3
+   },
+   {
+    "primitive": "multiagent",
+    "founders": 2,
+    "founder_names": [
+     "Tomas",
+     "karan"
+    ],
+    "blocker_clusters": 4,
+    "cluster_ids": [
+     "silent-run-failures",
+     "run-opacity",
+     "multiagent-misrouting",
+     "unverified-completion"
+    ],
+    "founders_if_counted_per_cluster": 5
+   },
+   {
+    "primitive": "budget",
+    "founders": 2,
+    "founder_names": [
+     "Ben",
+     "karan"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "run-opacity",
+     "runaway-spend"
+    ],
+    "founders_if_counted_per_cluster": 3
+   },
+   {
+    "primitive": "environment",
+    "founders": 2,
+    "founder_names": [
+     "Lena",
+     "Aisha"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "private-network-data",
+     "sandbox-dependencies"
+    ],
+    "founders_if_counted_per_cluster": 2
+   },
+   {
+    "primitive": "memory store",
+    "founders": 2,
+    "founder_names": [
+     "Lena",
+     "karan"
+    ],
+    "blocker_clusters": 2,
+    "cluster_ids": [
+     "stale-recurring-runs",
+     "context-rot-task-drift"
+    ],
+    "founders_if_counted_per_cluster": 3
+   },
+   {
+    "primitive": "agent",
+    "founders": 2,
+    "founder_names": [
+     "Dev",
+     "Omar"
+    ],
+    "blocker_clusters": 1,
+    "cluster_ids": [
+     "no-quality-scoreboard"
+    ],
+    "founders_if_counted_per_cluster": 2
+   },
+   {
+    "primitive": "webhooks",
+    "founders": 2,
+    "founder_names": [
+     "Maya",
+     "Jonas"
+    ],
+    "blocker_clusters": 1,
+    "cluster_ids": [
+     "silent-run-failures"
+    ],
+    "founders_if_counted_per_cluster": 3
+   },
+   {
+    "primitive": "files API",
+    "founders": 1,
+    "founder_names": [
+     "Maya"
+    ],
+    "blocker_clusters": 1,
+    "cluster_ids": [
+     "session-file-retrieval"
+    ],
+    "founders_if_counted_per_cluster": 1
+   }
+  ]
+ },
+ "pains_by_source": {
+  "blocker_clusters_citing_source": {
+   "linear": 4,
+   "call": 9,
+   "notion": 3
+  },
+  "founders_by_source": {
+   "linear": 4,
+   "call": 5,
+   "notion": 2
+  },
+  "cluster_quotes_by_source": {
+   "linear": 7,
+   "call": 9,
+   "notion": 5
+  }
+ },
+ "evidence_items_per_source": {
+  "call": 7,
+  "linear": 5,
+  "notion": 6
+ },
+ "evidence_items_per_file": {
+  "evidence/call.jsonl": 4,
+  "evidence/call-context.jsonl": 3,
+  "evidence/linear.jsonl": 5,
+  "evidence/notion.jsonl": 6
+ },
+ "founders_per_cluster": {
+  "silent-run-failures": 3,
+  "run-opacity": 3,
+  "stale-recurring-runs": 2,
+  "no-quality-scoreboard": 2,
+  "secrets-in-prompt": 2,
+  "runaway-spend": 1,
+  "private-network-data": 1,
+  "multiagent-misrouting": 1,
+  "unverified-completion": 1,
+  "context-rot-task-drift": 1,
+  "session-file-retrieval": 1,
+  "sandbox-dependencies": 1,
+  "human-approval-gate": 1
+ },
+ "cluster_status_vs_last_run": {
+  "method": "clusters.json status, cross-checked with the pain-library History line for this run (created -> new, GREW -> growing, anything else -> unchanged; 'carried' counts as unchanged)",
+  "counts": {
+   "new": 3,
+   "growing": 1,
+   "unchanged": 9
+  },
+  "new": [
+   "multiagent-misrouting",
+   "unverified-completion",
+   "context-rot-task-drift"
+  ],
+  "growing": [
+   {
+    "id": "run-opacity",
+    "founders": 3,
+    "added": [
+     "karan"
+    ]
+   }
+  ],
+  "unchanged": [
+   "silent-run-failures",
+   "stale-recurring-runs",
+   "no-quality-scoreboard",
+   "secrets-in-prompt",
+   "runaway-spend",
+   "private-network-data",
+   "session-file-retrieval",
+   "sandbox-dependencies",
+   "human-approval-gate"
+  ],
+  "unchanged_carried_without_evidence": [
+   "runaway-spend",
+   "private-network-data",
+   "human-approval-gate"
+  ]
+ },
+ "coverage": {
+  "founders_total": 11,
+  "founders_with_brief": 1,
+  "founders_with_brief_names": [
+   "karan"
+  ],
+  "founders_called_this_run": 1,
+  "founders_called_this_run_with_brief": 1,
+  "founders_counted_from_library_only": [
+   "Tomas",
+   "Ben",
+   "Priya",
+   "Aisha"
+  ],
+  "sources_expected": [
+   "call",
+   "linear",
+   "notion"
+  ],
+  "sources_with_zero_items": [],
+  "evidence_files_with_zero_rows": [],
+  "clusters_with_no_evidence_this_run": [
+   "runaway-spend",
+   "private-network-data",
+   "human-approval-gate"
+  ],
+  "evidence_items_clustered": 12,
+  "evidence_items_context_only": 1,
+  "evidence_items_unclustered": [
+   {
+    "id": "call:karan:Q2",
+    "note": "status quo / job-to-be-done, not a CMA blocker"
+   },
+   {
+    "id": "call-context:karan:Q1",
+    "note": "call context answer (use case / DoD / closing); not a blocker"
+   },
+   {
+    "id": "call-context:karan:Q7",
+    "note": "call context answer (use case / DoD / closing); not a blocker"
+   },
+   {
+    "id": "notion-004",
+    "note": "note-taker paraphrase (notion-004); context for no-quality-scoreboard, not quoted"
+   },
+   {
+    "id": "notion-005",
+    "note": "notion-005 scheduling / manual run endpoint: mentor observation, uncounted"
+   }
+  ]
+ },
+ "agent_check": {
+  "summary": {
+   "steps_checked": 4,
+   "passed": 4,
+   "failed": 0,
+   "self_check_steps": [
+    5
+   ],
+   "agent_threads_recorded": 5,
+   "stray_threads": 0,
+   "steps_without_recorded_thread": []
+  },
+  "steps": [
+   {
+    "step": 1,
+    "agent": "room-miner-discovery-agent",
+    "task": "Discovery call with live founder karan",
+    "manifest_status": "done",
+    "expected_outputs": [
+     {
+      "path": "calls/karan.md",
+      "exists": true,
+      "bytes": 1305
+     },
+     {
+      "path": "briefs/karan.md",
+      "exists": true,
+      "bytes": 2577
+     }
+    ],
+    "files_expected": 2,
+    "files_present": 2,
+    "claims": [
+     {
+      "claim": "7/8 questions",
+      "observed": "7 Q / 7 A in calls/karan.md",
+      "ok": true
+     },
+     {
+      "claim": "needs brief has the 5 standard fields",
+      "observed": "5/5 present",
+      "ok": true
+     }
+    ],
+    "claims_ok": 2,
+    "verdict": "pass",
+    "note": "",
+    "thread_ids": [
+     "sthr_01T5K3jQZv8REVEJPRF1ew1H"
+    ],
+    "thread_recorded": true,
+    "cost": "not available"
+   },
+   {
+    "step": 2,
+    "agent": "room-miner-notion-scout",
+    "task": "notion-scout: read /mnt/session/uploads/notion/office-hours-notes.md",
+    "manifest_status": "done",
+    "expected_outputs": [
+     {
+      "path": "evidence/notion.jsonl",
+      "exists": true,
+      "bytes": 1558
+     }
+    ],
+    "files_expected": 1,
+    "files_present": 1,
+    "claims": [
+     {
+      "claim": "6 items",
+      "observed": "6 rows in evidence/notion.jsonl",
+      "ok": true
+     },
+     {
+      "claim": "every row has exactly the 5 standard fields",
+      "observed": "yes",
+      "ok": true
+     }
+    ],
+    "claims_ok": 2,
+    "verdict": "pass",
+    "note": "",
+    "thread_ids": [
+     "sthr_016SDQJooXS7vQMNNShVPY5i"
+    ],
+    "thread_recorded": true,
+    "cost": "not available"
+   },
+   {
+    "step": 3,
+    "agent": "room-miner-linear-scout",
+    "task": "linear-scout: read /mnt/session/uploads/linear/tickets.json, all time",
+    "manifest_status": "done",
+    "expected_outputs": [
+     {
+      "path": "evidence/linear.jsonl",
+      "exists": true,
+      "bytes": 1307
+     }
+    ],
+    "files_expected": 1,
+    "files_present": 1,
+    "claims": [
+     {
+      "claim": "5 items",
+      "observed": "5 rows in evidence/linear.jsonl",
+      "ok": true
+     },
+     {
+      "claim": "every row has exactly the 5 standard fields",
+      "observed": "yes",
+      "ok": true
+     }
+    ],
+    "claims_ok": 2,
+    "verdict": "pass",
+    "note": "",
+    "thread_ids": [
+     "sthr_01P9sXh1pSXgNomdjLEZRiDN"
+    ],
+    "thread_recorded": true,
+    "cost": "not available"
+   },
+   {
+    "step": 4,
+    "agent": "room-miner-miner",
+    "task": "miner: cluster and rank pains across call + Linear + Notion into room-report.md with top 3 fixes and quotes",
+    "manifest_status": "done",
+    "expected_outputs": [
+     {
+      "path": "room-report.md",
+      "exists": true,
+      "bytes": 17031
+     },
+     {
+      "path": "clusters.json",
+      "exists": true,
+      "bytes": 18240
+     },
+     {
+      "path": "evidence/call.jsonl",
+      "exists": true,
+      "bytes": 935
+     },
+     {
+      "path": "evidence/call-context.jsonl",
+      "exists": true,
+      "bytes": 512
+     }
+    ],
+    "files_expected": 4,
+    "files_present": 4,
+    "claims": [
+     {
+      "claim": "12 clusters + 1 requirement across 11 founders",
+      "observed": "12 blockers + 1 requirement, 11 founders in clusters.json",
+      "ok": true
+     },
+     {
+      "claim": "3 new clusters",
+      "observed": "3 new in clusters.json",
+      "ok": true
+     },
+     {
+      "claim": "run-opacity grew to 3",
+      "observed": "run-opacity 3 founders, status 'grew'",
+      "ok": true
+     },
+     {
+      "claim": "cluster quotes are verbatim evidence",
+      "observed": "21/21 verbatim",
+      "ok": true
+     },
+     {
+      "claim": "report quotes are verbatim evidence",
+      "observed": "33/33 verbatim",
+      "ok": true
+     },
+     {
+      "claim": "report has a Top 3 fixes section with quotes",
+      "observed": "3 fixes in report, 3 in clusters.json",
+      "ok": true
+     }
+    ],
+    "claims_ok": 6,
+    "verdict": "pass",
+    "note": "",
+    "thread_ids": [
+     "sthr_01AqmfMTUJ3KpfEfKikDeX66"
+    ],
+    "thread_recorded": true,
+    "cost": "not available"
+   },
+   {
+    "step": 5,
+    "agent": "room-miner-data-analyst",
+    "task": "data-analyst: build data/room.db, data/metrics.json, dashboard.html incl. per-agent done-check and cost view",
+    "manifest_status": "done",
+    "expected_outputs": [
+     {
+      "path": "data/room.db",
+      "exists": true,
+      "bytes": 90112
+     },
+     {
+      "path": "data/metrics.json",
+      "exists": true,
+      "bytes": 66751
+     },
+     {
+      "path": "dashboard.html",
+      "exists": true,
+      "bytes": 30831
+     },
+     {
+      "path": "data/README.md",
+      "exists": true,
+      "bytes": 7004
+     },
+     {
+      "path": "data/build.py",
+      "exists": true,
+      "bytes": 47593
+     },
+     {
+      "path": "data/render.py",
+      "exists": true,
+      "bytes": 16717
+     }
+    ],
+    "files_expected": 6,
+    "files_present": 6,
+    "claims": [],
+    "claims_ok": 0,
+    "verdict": "self-check (not counted)",
+    "note": "The manifest lists no outputs for this step yet (status in_progress), so the expected outputs come from the coordinator's dispatch. Files present reflect the moment metrics.json was built. An agent can't certify its own step: the coordinator should re-run this check after step 5.",
+    "thread_ids": [
+     "sthr_013ciPM7afyxxdmT4n9GJpox"
+    ],
+    "thread_recorded": true,
+    "cost": "not available"
+   }
+  ],
+  "threads": [
+   {
+    "founder": "karan",
+    "role": "discovery",
+    "thread_id": "sthr_01T5K3jQZv8REVEJPRF1ew1H",
+    "step": 1,
+    "status": "used (matches manifest step)",
+    "detail": "",
+    "cost": "not available"
+   },
+   {
+    "founder": "karan",
+    "role": "founder",
+    "thread_id": null,
+    "step": null,
+    "status": "not an agent thread",
+    "detail": "human (live session, no founder agent)",
+    "cost": "not available"
+   },
+   {
+    "founder": "karan",
+    "role": "notion_scout",
+    "thread_id": "sthr_016SDQJooXS7vQMNNShVPY5i",
+    "step": 2,
+    "status": "used (matches manifest step)",
+    "detail": "",
+    "cost": "not available"
+   },
+   {
+    "founder": "karan",
+    "role": "linear_scout",
+    "thread_id": "sthr_01P9sXh1pSXgNomdjLEZRiDN",
+    "step": 3,
+    "status": "used (matches manifest step)",
+    "detail": "",
+    "cost": "not available"
+   },
+   {
+    "founder": "karan",
+    "role": "miner",
+    "thread_id": "sthr_01AqmfMTUJ3KpfEfKikDeX66",
+    "step": 4,
+    "status": "used (matches manifest step)",
+    "detail": "",
+    "cost": "not available"
+   },
+   {
+    "founder": "karan",
+    "role": "data_analyst",
+    "thread_id": "sthr_013ciPM7afyxxdmT4n9GJpox",
+    "step": 5,
+    "status": "used (matches manifest step)",
+    "detail": "",
+    "cost": "not available"
+   }
+  ]
+ },
+ "cost": {
+  "display": "not available",
+  "per_step": {
+   "1": "not available",
+   "2": "not available",
+   "3": "not available",
+   "4": "not available",
+   "5": "not available"
+  },
+  "per_thread": {
+   "sthr_01T5K3jQZv8REVEJPRF1ew1H": "not available",
+   "sthr_016SDQJooXS7vQMNNShVPY5i": "not available",
+   "sthr_01P9sXh1pSXgNomdjLEZRiDN": "not available",
+   "sthr_01AqmfMTUJ3KpfEfKikDeX66": "not available",
+   "sthr_013ciPM7afyxxdmT4n9GJpox": "not available"
+  },
+  "spec": {
+   "status": "not_available",
+   "reason": "No token or billing telemetry is available to the data analyst in this session. No cost numbers are shown or estimated.",
+   "unit_of_analysis": "one agent thread (sthr_*) per specialist step; rolled up to step and run",
+   "source": "session event stream: per-thread model-usage events (input/output/cache tokens) tagged with thread_id and agent name, priced at the model's per-token rates at run time",
+   "fields_per_thread": {
+    "thread_id": "sthr_* id",
+    "agent": "agent name (e.g. room-miner-linear-scout)",
+    "step": "run-manifest step number, or null if the thread matches no step (stray)",
+    "input_tokens": "sum over the thread's model calls",
+    "output_tokens": "sum over the thread's model calls",
+    "cache_read_tokens": "sum over the thread's model calls",
+    "cache_write_tokens": "sum over the thread's model calls",
+    "model_calls": "count of model requests",
+    "tool_calls": "count of tool invocations",
+    "wall_clock_s": "first to last event in the thread",
+    "cost_usd": "tokens x per-token price for the model used"
+   },
+   "derived_metrics": {
+    "cost_per_step_usd": "sum of cost_usd over threads mapped to the step",
+    "run_total_cost_usd": "sum of cost_usd over all threads in the run",
+    "wasted_thread_cost_usd": "sum of cost_usd over threads flagged STRAY plus threads of steps with verdict fail",
+    "cost_per_passing_step_usd": "run_total_cost_usd / number of steps with verdict pass",
+    "cost_per_top3_fix_usd": "run_total_cost_usd / 3 (cost of producing Monday's list)"
+   },
+   "ready_when": "threads.json (or the event stream) records every thread the coordinator spawned, including miner and data-analyst threads, and usage events carry thread_id"
+  }
+ },
+ "data_quality": [
+  "No evidence file has an id field; ids were synthesised: call:<slug>:Q<n>, call-context:<slug>:Q<n>, FFD-<n> (Linear link), notion-00<n> (file order; matches the pain library's notion-00n refs).",
+  "Missing timestamps: 13 of 18 evidence items (all call and Notion items). Only the 5 Linear items are dated.",
+  "Exact duplicate evidence items (same author and text): 0.",
+  "Paraphrase attributed to a founder: notion-004 (a note-taker paraphrase stored under Omar Haddad; the fixed schema has no type field). It is not quoted anywhere.",
+  "Items not from a founder: notion-005, notion-006 (author 'mentor notes'). Used as context only.",
+  "The Linear and Notion exports are labelled seed/mock data, and they are the same items counted in the 2026-09-23 EVAL run. The Linear export has no status field, so open/closed state is unknown.",
+  "Founders counted from the pain library only (their call transcripts are not in this run's outputs): Tomas, Ben, Priya, Aisha. Clusters with no evidence in this run: runaway-spend, private-network-data, human-approval-gate.",
+  "Notion links point to /mnt/session/uploads/..., which is outside the outputs folder.",
+  "karan's Q3, Q5 and Q6 each support two clusters (Q3: multiagent-misrouting and context-rot-task-drift; Q5 and Q6: run-opacity and unverified-completion). This is multi-mapping, not duplication, and founder counts stay distinct per cluster.",
+  "karan's Q5 answer begins 'All three:', but the recorded question lists no options. The question may have been leading, or the transcript may be incomplete (the miner flagged this too).",
+  "Ben's 'company' is a descriptor (climate-investor newsletter), not a company name. karan has no company recorded.",
+  "threads.json records 5 agent threads (discovery, notion-scout, linear-scout). Steps  (miner, data-analyst) have no recorded thread id, so the stray-thread check cannot see them.",
+  "work/pending-triggers.json still says 'deferred until CALL COMPLETE', although the manifest shows those steps as done or in progress (stale status field).",
+  "The data-analyst prompt names /mnt/memory/pain-library/; the real store is /mnt/memory/room-miner-pain-library/. The miner had already updated it for this run, so new/growing status comes from its History lines.",
+  "No cost or token telemetry is available in this session, so every cost cell reads 'not available' by design."
+ ],
+ "verification": {
+  "checks_run": 194,
+  "checks_passed": 194,
+  "mismatches": [],
+  "checks": [
+   {
+    "check": "evidence ids unique",
+    "ok": true,
+    "detail": "18 rows, 18 unique ids"
+   },
+   {
+    "check": "previous-run founder list parsed from _index.md",
+    "ok": true,
+    "detail": "['Aisha', 'Ben', 'Dev', 'Jonas', 'Lena', 'Maya', 'Omar', 'Priya', 'Sam', 'Tomas']"
+   },
+   {
+    "check": "quote verbatim in evidence: silent-run-failures / Our scheduled agent errored at 2am. We o",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: silent-run-failures / I need to know when the cron run breaks.",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: run-opacity / I lost time digging through the trace to",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: run-opacity / it cost money on a wasted thread.",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: run-opacity / a check that proves each agent did its j",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: stale-recurring-runs / It doesn't remember which carriers we al",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: stale-recurring-runs / so it re-flags them every day",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: no-quality-scoreboard / We changed the instructions last week an",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: no-quality-scoreboard / I have no scoreboard. I tweak something,",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: secrets-in-prompt / I don't want the key in the prompt.",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: secrets-in-prompt / What's the right place to put it so the ",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: multiagent-misrouting / sometimes calling the wrong agent for th",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: multiagent-misrouting / It sent a placeholder to the wrong agent",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: unverified-completion / I stopped trusting the result because I ",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: unverified-completion / a check that proves each agent did its j",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: context-rot-task-drift / the agent loses track of what it needs t",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: context-rot-task-drift / often context rot and memory gets botche",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: session-file-retrieval / The agent says it wrote report.pdf to ou",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: session-file-retrieval / The docs mention a scope thing I don't g",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: sandbox-dependencies / Half my first day was fighting pip.",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "quote verbatim in evidence: sandbox-dependencies / The sandbox didn't have pandas and the i",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "context quote verbatim in evidence: human-approval-gate / Recurring theme: people want the agent t",
+    "ok": true,
+    "detail": "1 matching evidence rows"
+   },
+   {
+    "check": "pain-library evidence refs == clusters.json quote evidence (this run's items)",
+    "ok": true,
+    "detail": "library-only: []; clusters.json-only: []"
+   },
+   {
+    "check": "cluster in pain library: silent-run-failures",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: silent-run-failures",
+    "ok": true,
+    "detail": "clusters.json 3 / founders[] 3 / library 3"
+   },
+   {
+    "check": "founder count vs _index.md: silent-run-failures",
+    "ok": true,
+    "detail": "_index 3 vs 3"
+   },
+   {
+    "check": "status clusters.json vs library history: silent-run-failures",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: silent-run-failures",
+    "ok": true,
+    "detail": "['webhooks', 'deployment', 'session', 'multiagent'] vs ['webhooks', 'deployment', 'session', 'multiagent']"
+   },
+   {
+    "check": "founder names clusters.json vs library: silent-run-failures",
+    "ok": true,
+    "detail": "['Jonas', 'Maya', 'Tomas'] vs ['Jonas', 'Maya', 'Tomas']"
+   },
+   {
+    "check": "cluster in pain library: run-opacity",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: run-opacity",
+    "ok": true,
+    "detail": "clusters.json 3 / founders[] 3 / library 3"
+   },
+   {
+    "check": "founder count vs _index.md: run-opacity",
+    "ok": true,
+    "detail": "_index 3 vs 3"
+   },
+   {
+    "check": "status clusters.json vs library history: run-opacity",
+    "ok": true,
+    "detail": "clusters.json 'grew' -> growing; library -> growing"
+   },
+   {
+    "check": "primitives clusters.json vs library: run-opacity",
+    "ok": true,
+    "detail": "['session', 'multiagent', 'budget'] vs ['session', 'multiagent', 'budget']"
+   },
+   {
+    "check": "founder names clusters.json vs library: run-opacity",
+    "ok": true,
+    "detail": "['Ben', 'Tomas', 'karan'] vs ['Ben', 'Tomas', 'karan']"
+   },
+   {
+    "check": "cluster in pain library: stale-recurring-runs",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: stale-recurring-runs",
+    "ok": true,
+    "detail": "clusters.json 2 / founders[] 2 / library 2"
+   },
+   {
+    "check": "founder count vs _index.md: stale-recurring-runs",
+    "ok": true,
+    "detail": "_index 2 vs 2"
+   },
+   {
+    "check": "status clusters.json vs library history: stale-recurring-runs",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: stale-recurring-runs",
+    "ok": true,
+    "detail": "['deployment', 'memory store'] vs ['deployment', 'memory store']"
+   },
+   {
+    "check": "founder names clusters.json vs library: stale-recurring-runs",
+    "ok": true,
+    "detail": "['Lena', 'Priya'] vs ['Lena', 'Priya']"
+   },
+   {
+    "check": "cluster in pain library: no-quality-scoreboard",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: no-quality-scoreboard",
+    "ok": true,
+    "detail": "clusters.json 2 / founders[] 2 / library 2"
+   },
+   {
+    "check": "founder count vs _index.md: no-quality-scoreboard",
+    "ok": true,
+    "detail": "_index 2 vs 2"
+   },
+   {
+    "check": "status clusters.json vs library history: no-quality-scoreboard",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: no-quality-scoreboard",
+    "ok": true,
+    "detail": "['outcome', 'agent'] vs ['outcome', 'agent']"
+   },
+   {
+    "check": "founder names clusters.json vs library: no-quality-scoreboard",
+    "ok": true,
+    "detail": "['Dev', 'Omar'] vs ['Dev', 'Omar']"
+   },
+   {
+    "check": "cluster in pain library: secrets-in-prompt",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: secrets-in-prompt",
+    "ok": true,
+    "detail": "clusters.json 2 / founders[] 2 / library 2"
+   },
+   {
+    "check": "founder count vs _index.md: secrets-in-prompt",
+    "ok": true,
+    "detail": "_index 2 vs 2"
+   },
+   {
+    "check": "status clusters.json vs library history: secrets-in-prompt",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: secrets-in-prompt",
+    "ok": true,
+    "detail": "['vault', 'MCP connector'] vs ['vault', 'MCP connector']"
+   },
+   {
+    "check": "founder names clusters.json vs library: secrets-in-prompt",
+    "ok": true,
+    "detail": "['Priya', 'Sam'] vs ['Priya', 'Sam']"
+   },
+   {
+    "check": "cluster in pain library: runaway-spend",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: runaway-spend",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: runaway-spend",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: runaway-spend",
+    "ok": true,
+    "detail": "clusters.json 'carried (no evidence in this run)' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: runaway-spend",
+    "ok": true,
+    "detail": "['budget', 'outcome'] vs ['budget', 'outcome']"
+   },
+   {
+    "check": "founder names clusters.json vs library: runaway-spend",
+    "ok": true,
+    "detail": "['Ben'] vs ['Ben']"
+   },
+   {
+    "check": "cluster in pain library: private-network-data",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: private-network-data",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: private-network-data",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: private-network-data",
+    "ok": true,
+    "detail": "clusters.json 'carried (no evidence in this run)' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: private-network-data",
+    "ok": true,
+    "detail": "['MCP connector', 'environment', 'vault'] vs ['MCP connector', 'environment', 'vault']"
+   },
+   {
+    "check": "founder names clusters.json vs library: private-network-data",
+    "ok": true,
+    "detail": "['Aisha'] vs ['Aisha']"
+   },
+   {
+    "check": "cluster in pain library: multiagent-misrouting",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: multiagent-misrouting",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: multiagent-misrouting",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: multiagent-misrouting",
+    "ok": true,
+    "detail": "clusters.json 'new' -> new; library -> new"
+   },
+   {
+    "check": "primitives clusters.json vs library: multiagent-misrouting",
+    "ok": true,
+    "detail": "['multiagent'] vs ['multiagent']"
+   },
+   {
+    "check": "founder names clusters.json vs library: multiagent-misrouting",
+    "ok": true,
+    "detail": "['karan'] vs ['karan']"
+   },
+   {
+    "check": "cluster in pain library: unverified-completion",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: unverified-completion",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: unverified-completion",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: unverified-completion",
+    "ok": true,
+    "detail": "clusters.json 'new' -> new; library -> new"
+   },
+   {
+    "check": "primitives clusters.json vs library: unverified-completion",
+    "ok": true,
+    "detail": "['outcome', 'multiagent', 'session'] vs ['outcome', 'multiagent', 'session']"
+   },
+   {
+    "check": "founder names clusters.json vs library: unverified-completion",
+    "ok": true,
+    "detail": "['karan'] vs ['karan']"
+   },
+   {
+    "check": "cluster in pain library: context-rot-task-drift",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: context-rot-task-drift",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: context-rot-task-drift",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: context-rot-task-drift",
+    "ok": true,
+    "detail": "clusters.json 'new' -> new; library -> new"
+   },
+   {
+    "check": "primitives clusters.json vs library: context-rot-task-drift",
+    "ok": true,
+    "detail": "['session', 'memory store'] vs ['session', 'memory store']"
+   },
+   {
+    "check": "founder names clusters.json vs library: context-rot-task-drift",
+    "ok": true,
+    "detail": "['karan'] vs ['karan']"
+   },
+   {
+    "check": "cluster in pain library: session-file-retrieval",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: session-file-retrieval",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: session-file-retrieval",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: session-file-retrieval",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: session-file-retrieval",
+    "ok": true,
+    "detail": "['files API'] vs ['files API']"
+   },
+   {
+    "check": "founder names clusters.json vs library: session-file-retrieval",
+    "ok": true,
+    "detail": "['Maya'] vs ['Maya']"
+   },
+   {
+    "check": "cluster in pain library: sandbox-dependencies",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: sandbox-dependencies",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: sandbox-dependencies",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: sandbox-dependencies",
+    "ok": true,
+    "detail": "clusters.json 'unchanged' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: sandbox-dependencies",
+    "ok": true,
+    "detail": "['environment'] vs ['environment']"
+   },
+   {
+    "check": "founder names clusters.json vs library: sandbox-dependencies",
+    "ok": true,
+    "detail": "['Lena'] vs ['Lena']"
+   },
+   {
+    "check": "cluster in pain library: human-approval-gate",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "founder count clusters.json vs library: human-approval-gate",
+    "ok": true,
+    "detail": "clusters.json 1 / founders[] 1 / library 1"
+   },
+   {
+    "check": "founder count vs _index.md: human-approval-gate",
+    "ok": true,
+    "detail": "_index 1 vs 1"
+   },
+   {
+    "check": "status clusters.json vs library history: human-approval-gate",
+    "ok": true,
+    "detail": "clusters.json 'carried (no founder evidence in this run)' -> unchanged; library -> unchanged"
+   },
+   {
+    "check": "primitives clusters.json vs library: human-approval-gate",
+    "ok": true,
+    "detail": "['permission policy', 'files API'] vs ['permission policy', 'files API']"
+   },
+   {
+    "check": "founder names clusters.json vs library: human-approval-gate",
+    "ok": true,
+    "detail": "['Aisha'] vs ['Aisha']"
+   },
+   {
+    "check": "founder attribution covers every blocker founder",
+    "ok": true,
+    "detail": "missing: []"
+   },
+   {
+    "check": "primitive tally vs _index.md: session",
+    "ok": true,
+    "detail": "computed 5 vs _index 5"
+   },
+   {
+    "check": "primitive tally vs _index.md: deployment",
+    "ok": true,
+    "detail": "computed 4 vs _index 4"
+   },
+   {
+    "check": "primitive tally vs _index.md: outcome",
+    "ok": true,
+    "detail": "computed 4 vs _index 4"
+   },
+   {
+    "check": "primitive tally vs _index.md: vault",
+    "ok": true,
+    "detail": "computed 3 vs _index 3"
+   },
+   {
+    "check": "primitive tally vs _index.md: MCP connector",
+    "ok": true,
+    "detail": "computed 3 vs _index 3"
+   },
+   {
+    "check": "primitive tally vs _index.md: multiagent",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: budget",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: memory store",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: webhooks",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: environment",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: agent",
+    "ok": true,
+    "detail": "computed 2 vs _index 2"
+   },
+   {
+    "check": "primitive tally vs _index.md: files API",
+    "ok": true,
+    "detail": "computed 1 vs _index 1"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Maya",
+    "ok": true,
+    "detail": "attributed ['session', 'deployment', 'webhooks', 'files API']; cluster primitives ['deployment', 'files API', 'multiagent', 'session', 'webhooks']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Jonas",
+    "ok": true,
+    "detail": "attributed ['session', 'deployment', 'webhooks']; cluster primitives ['deployment', 'multiagent', 'session', 'webhooks']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Tomas",
+    "ok": true,
+    "detail": "attributed ['session', 'multiagent']; cluster primitives ['budget', 'deployment', 'multiagent', 'session', 'webhooks']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Ben",
+    "ok": true,
+    "detail": "attributed ['session', 'budget', 'outcome']; cluster primitives ['budget', 'multiagent', 'outcome', 'session']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Priya",
+    "ok": true,
+    "detail": "attributed ['deployment', 'vault', 'MCP connector']; cluster primitives ['MCP connector', 'deployment', 'memory store', 'vault']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Lena",
+    "ok": true,
+    "detail": "attributed ['deployment', 'memory store', 'environment']; cluster primitives ['deployment', 'environment', 'memory store']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Sam",
+    "ok": true,
+    "detail": "attributed ['vault', 'MCP connector']; cluster primitives ['MCP connector', 'vault']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Dev",
+    "ok": true,
+    "detail": "attributed ['outcome', 'agent']; cluster primitives ['agent', 'outcome']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Omar",
+    "ok": true,
+    "detail": "attributed ['outcome', 'agent']; cluster primitives ['agent', 'outcome']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: Aisha",
+    "ok": true,
+    "detail": "attributed ['MCP connector', 'environment', 'vault']; cluster primitives ['MCP connector', 'environment', 'vault']"
+   },
+   {
+    "check": "attribution consistent with founder's clusters: karan",
+    "ok": true,
+    "detail": "attributed ['session', 'multiagent', 'budget', 'outcome', 'memory store']; cluster primitives ['budget', 'memory store', 'multiagent', 'outcome', 'session']"
+   },
+   {
+    "check": "report distinct founders == clusters.json == library",
+    "ok": true,
+    "detail": "report 11, clusters.json 11, library 11"
+   },
+   {
+    "check": "report change counts == computed",
+    "ok": true,
+    "detail": "report new/grew/unchanged 3/1/9 vs computed {'new': 3, 'growing': 1, 'unchanged': 9}"
+   },
+   {
+    "check": "report new founders == computed",
+    "ok": true,
+    "detail": "['karan']"
+   },
+   {
+    "check": "report ranked table has every cluster",
+    "ok": true,
+    "detail": "13 rows"
+   },
+   {
+    "check": "report ranked row == clusters.json: silent-run-failures",
+    "ok": true,
+    "detail": "report {'rank': '1', 'id': 'silent-run-failures', 'founders': 3, 'status': 'unchanged', 'sources': ['linear', 'call'], 'primitives': ['webhooks', 'deployment', 'session', 'multiagent']} vs clusters.json rank 1 founders 3 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: run-opacity",
+    "ok": true,
+    "detail": "report {'rank': '2', 'id': 'run-opacity', 'founders': 3, 'status': '**grew (+karan)**', 'sources': ['call'], 'primitives': ['session', 'multiagent', 'budget']} vs clusters.json rank 2 founders 3 status grew"
+   },
+   {
+    "check": "report ranked row == clusters.json: stale-recurring-runs",
+    "ok": true,
+    "detail": "report {'rank': '3', 'id': 'stale-recurring-runs', 'founders': 2, 'status': 'unchanged', 'sources': ['call', 'notion'], 'primitives': ['deployment', 'memory store']} vs clusters.json rank 3 founders 2 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: no-quality-scoreboard",
+    "ok": true,
+    "detail": "report {'rank': '4', 'id': 'no-quality-scoreboard', 'founders': 2, 'status': 'unchanged', 'sources': ['linear', 'notion'], 'primitives': ['outcome', 'agent']} vs clusters.json rank 4 founders 2 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: secrets-in-prompt",
+    "ok": true,
+    "detail": "report {'rank': '5', 'id': 'secrets-in-prompt', 'founders': 2, 'status': 'unchanged', 'sources': ['call', 'linear'], 'primitives': ['vault', 'MCP connector']} vs clusters.json rank 5 founders 2 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: runaway-spend",
+    "ok": true,
+    "detail": "report {'rank': '6', 'id': 'runaway-spend', 'founders': 1, 'status': 'unchanged (library only)', 'sources': ['call'], 'primitives': ['budget', 'outcome']} vs clusters.json rank 6 founders 1 status carried (no evidence in this run)"
+   },
+   {
+    "check": "report ranked row == clusters.json: private-network-data",
+    "ok": true,
+    "detail": "report {'rank': '7', 'id': 'private-network-data', 'founders': 1, 'status': 'unchanged (library only)', 'sources': ['call'], 'primitives': ['MCP connector', 'environment', 'vault']} vs clusters.json rank 7 founders 1 status carried (no evidence in this run)"
+   },
+   {
+    "check": "report ranked row == clusters.json: multiagent-misrouting",
+    "ok": true,
+    "detail": "report {'rank': '8', 'id': 'multiagent-misrouting', 'founders': 1, 'status': '**new**', 'sources': ['call'], 'primitives': ['multiagent']} vs clusters.json rank 8 founders 1 status new"
+   },
+   {
+    "check": "report ranked row == clusters.json: unverified-completion",
+    "ok": true,
+    "detail": "report {'rank': '9', 'id': 'unverified-completion', 'founders': 1, 'status': '**new**', 'sources': ['call'], 'primitives': ['outcome', 'multiagent', 'session']} vs clusters.json rank 9 founders 1 status new"
+   },
+   {
+    "check": "report ranked row == clusters.json: context-rot-task-drift",
+    "ok": true,
+    "detail": "report {'rank': '10', 'id': 'context-rot-task-drift', 'founders': 1, 'status': '**new**', 'sources': ['call'], 'primitives': ['session', 'memory store']} vs clusters.json rank 10 founders 1 status new"
+   },
+   {
+    "check": "report ranked row == clusters.json: session-file-retrieval",
+    "ok": true,
+    "detail": "report {'rank': '11', 'id': 'session-file-retrieval', 'founders': 1, 'status': 'unchanged', 'sources': ['linear'], 'primitives': ['files API']} vs clusters.json rank 11 founders 1 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: sandbox-dependencies",
+    "ok": true,
+    "detail": "report {'rank': '12', 'id': 'sandbox-dependencies', 'founders': 1, 'status': 'unchanged', 'sources': ['notion'], 'primitives': ['environment']} vs clusters.json rank 12 founders 1 status unchanged"
+   },
+   {
+    "check": "report ranked row == clusters.json: human-approval-gate",
+    "ok": true,
+    "detail": "report {'rank': '—', 'id': 'human-approval-gate', 'founders': 1, 'status': 'unchanged (library only)', 'sources': ['call'], 'primitives': ['permission policy', 'files API']} vs clusters.json rank 13 founders 1 status carried (no founder evidence in this run)"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: silent-run-failures",
+    "ok": true,
+    "detail": "report 3 (Maya Lin, Jonas Weber, Tomas) vs ['Maya Lin (Orbit Health)', 'Jonas Weber (Freightly)', 'Tomas (Patchwork)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: run-opacity",
+    "ok": true,
+    "detail": "report 3 (Tomas, Ben, karan) vs ['Tomas (Patchwork)', 'Ben (climate-investor newsletter)', 'karan']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: stale-recurring-runs",
+    "ok": true,
+    "detail": "report 2 (Priya, Lena Hoffmann) vs ['Priya (Lumen Skin)', 'Lena Hoffmann (Parcelwise)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: no-quality-scoreboard",
+    "ok": true,
+    "detail": "report 2 (Dev Patel, Omar Haddad) vs ['Dev Patel (Quillstack)', 'Omar Haddad (Stackly)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: secrets-in-prompt",
+    "ok": true,
+    "detail": "report 2 (Priya, Sam Ortiz) vs ['Priya (Lumen Skin)', 'Sam Ortiz (Tallybook)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: runaway-spend",
+    "ok": true,
+    "detail": "report 1 (Ben) vs ['Ben (climate-investor newsletter)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: private-network-data",
+    "ok": true,
+    "detail": "report 1 (Aisha) vs ['Aisha (Ledgerline)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: multiagent-misrouting",
+    "ok": true,
+    "detail": "report 1 (karan) vs ['karan']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: unverified-completion",
+    "ok": true,
+    "detail": "report 1 (karan) vs ['karan']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: context-rot-task-drift",
+    "ok": true,
+    "detail": "report 1 (karan) vs ['karan']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: session-file-retrieval",
+    "ok": true,
+    "detail": "report 1 (Maya Lin) vs ['Maya Lin (Orbit Health)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: sandbox-dependencies",
+    "ok": true,
+    "detail": "report 1 (Lena Hoffmann) vs ['Lena Hoffmann (Parcelwise)']"
+   },
+   {
+    "check": "report cluster heading founders == clusters.json: human-approval-gate",
+    "ok": true,
+    "detail": "report 1 (Aisha) vs ['Aisha (Ledgerline)']"
+   },
+   {
+    "check": "report tally primitives == computed",
+    "ok": true,
+    "detail": "report ['MCP connector', 'agent', 'budget', 'deployment', 'environment', 'files API', 'memory store', 'multiagent', 'outcome', 'session', 'vault', 'webhooks'] vs computed ['MCP connector', 'agent', 'budget', 'deployment', 'environment', 'files API', 'memory store', 'multiagent', 'outcome', 'session', 'vault', 'webhooks']"
+   },
+   {
+    "check": "report tally row == computed: session",
+    "ok": true,
+    "detail": "report 5 ['Maya', 'Jonas', 'Tomas', 'Ben', 'karan'] vs computed 5 ['Maya', 'Jonas', 'Tomas', 'Ben', 'karan']"
+   },
+   {
+    "check": "report tally row == computed: deployment",
+    "ok": true,
+    "detail": "report 4 ['Maya', 'Jonas', 'Priya', 'Lena'] vs computed 4 ['Maya', 'Jonas', 'Priya', 'Lena']"
+   },
+   {
+    "check": "report tally row == computed: outcome",
+    "ok": true,
+    "detail": "report 4 ['Ben', 'Dev', 'Omar', 'karan'] vs computed 4 ['Ben', 'Dev', 'Omar', 'karan']"
+   },
+   {
+    "check": "report tally row == computed: vault",
+    "ok": true,
+    "detail": "report 3 ['Priya', 'Sam', 'Aisha'] vs computed 3 ['Priya', 'Sam', 'Aisha']"
+   },
+   {
+    "check": "report tally row == computed: MCP connector",
+    "ok": true,
+    "detail": "report 3 ['Priya', 'Sam', 'Aisha'] vs computed 3 ['Priya', 'Sam', 'Aisha']"
+   },
+   {
+    "check": "report tally row == computed: multiagent",
+    "ok": true,
+    "detail": "report 2 ['Tomas', 'karan'] vs computed 2 ['Tomas', 'karan']"
+   },
+   {
+    "check": "report tally row == computed: budget",
+    "ok": true,
+    "detail": "report 2 ['Ben', 'karan'] vs computed 2 ['Ben', 'karan']"
+   },
+   {
+    "check": "report tally row == computed: memory store",
+    "ok": true,
+    "detail": "report 2 ['Lena', 'karan'] vs computed 2 ['Lena', 'karan']"
+   },
+   {
+    "check": "report tally row == computed: webhooks",
+    "ok": true,
+    "detail": "report 2 ['Maya', 'Jonas'] vs computed 2 ['Maya', 'Jonas']"
+   },
+   {
+    "check": "report tally row == computed: environment",
+    "ok": true,
+    "detail": "report 2 ['Lena', 'Aisha'] vs computed 2 ['Lena', 'Aisha']"
+   },
+   {
+    "check": "report tally row == computed: agent",
+    "ok": true,
+    "detail": "report 2 ['Dev', 'Omar'] vs computed 2 ['Dev', 'Omar']"
+   },
+   {
+    "check": "report tally row == computed: files API",
+    "ok": true,
+    "detail": "report 1 ['Maya'] vs computed 1 ['Maya']"
+   },
+   {
+    "check": "report ends with the tally table",
+    "ok": true,
+    "detail": ""
+   },
+   {
+    "check": "report has 3 top fixes",
+    "ok": true,
+    "detail": "3"
+   },
+   {
+    "check": "report top fix #1 founders == clusters.json",
+    "ok": true,
+    "detail": "report 3 (Tomas, Ben, karan) vs ['Tomas (Patchwork)', 'Ben (climate-investor newsletter)', 'karan']"
+   },
+   {
+    "check": "report top fix #2 founders == clusters.json",
+    "ok": true,
+    "detail": "report 3 (Maya, Jonas, Tomas) vs ['Maya Lin (Orbit Health)', 'Jonas Weber (Freightly)', 'Tomas (Patchwork)']"
+   },
+   {
+    "check": "report top fix #3 founders == clusters.json",
+    "ok": true,
+    "detail": "report 3 (Dev, Omar, karan) vs ['Dev Patel (Quillstack)', 'Omar Haddad (Stackly)', 'karan']"
+   },
+   {
+    "check": "top fix #1 founders_served == union of its clusters' founders",
+    "ok": true,
+    "detail": "['Tomas (Patchwork)', 'Ben (climate-investor newsletter)', 'karan'] vs ['Tomas (Patchwork)', 'Ben (climate-investor newsletter)', 'karan']"
+   },
+   {
+    "check": "top fix #2 founders_served == union of its clusters' founders",
+    "ok": true,
+    "detail": "['Maya Lin (Orbit Health)', 'Jonas Weber (Freightly)', 'Tomas (Patchwork)'] vs ['Maya Lin (Orbit Health)', 'Jonas Weber (Freightly)', 'Tomas (Patchwork)']"
+   },
+   {
+    "check": "top fix #3 founders_served == union of its clusters' founders",
+    "ok": true,
+    "detail": "['Dev Patel (Quillstack)', 'Omar Haddad (Stackly)', 'karan'] vs ['Dev Patel (Quillstack)', 'Omar Haddad (Stackly)', 'karan']"
+   },
+   {
+    "check": "report top fix #1 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "I lost time digging through the trace to find out what happe"
+   },
+   {
+    "check": "report top fix #1 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "it cost money on a wasted thread."
+   },
+   {
+    "check": "report top fix #1 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "a check that proves each agent did its job and what it cost"
+   },
+   {
+    "check": "report top fix #2 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "Our scheduled agent errored at 2am. We only found out when t"
+   },
+   {
+    "check": "report top fix #2 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "I need to know when the cron run breaks. Right now I check t"
+   },
+   {
+    "check": "report top fix #3 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "I stopped trusting the result because I couldn't tell if the"
+   },
+   {
+    "check": "report top fix #3 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "We changed the instructions last week and I have a feeling t"
+   },
+   {
+    "check": "report top fix #3 quote is a clusters.json quote",
+    "ok": true,
+    "detail": "I have no scoreboard. I tweak something, eyeball two outputs"
+   },
+   {
+    "check": "every double-quoted string in room-report.md is verbatim evidence",
+    "ok": true,
+    "detail": "33 quoted strings; not found: []"
+   },
+   {
+    "check": "report 'karan counts once in each of N clusters'",
+    "ok": true,
+    "detail": "four vs ['run-opacity', 'multiagent-misrouting', 'unverified-completion', 'context-rot-task-drift']"
+   },
+   {
+    "check": "report 'last run totals' == computed minus karan",
+    "ok": true,
+    "detail": "report ('4', '4', '1') vs {'deployment': 4, 'session': 4, 'multiagent': 1}"
+   },
+   {
+    "check": "room.db founders == distinct founders",
+    "ok": true,
+    "detail": "11"
+   },
+   {
+    "check": "room.db cluster status counts == metrics",
+    "ok": true,
+    "detail": "{'growing': 1, 'new': 3, 'unchanged': 9}"
+   },
+   {
+    "check": "room.db primitive tally == metrics",
+    "ok": true,
+    "detail": "{'MCP connector': 3, 'agent': 2, 'budget': 2, 'deployment': 4, 'environment': 2, 'files API': 1, 'memory store': 2, 'multiagent': 2, 'outcome': 4, 'session': 5, 'vault': 3, 'webhooks': 2}"
+   },
+   {
+    "check": "room.db founders per cluster == clusters.founder_count",
+    "ok": true,
+    "detail": "{'context-rot-task-drift': 1, 'human-approval-gate': 1, 'multiagent-misrouting': 1, 'no-quality-scoreboard': 2, 'private-network-data': 1, 'run-opacity': 3, 'runaway-spend': 1, 'sandbox-dependencies': 1, 'secrets-in-prompt': 2, 'session-file-retrieval': 1, 'silent-run-failures': 3, 'stale-recurring-runs': 2, 'unverified-completion': 1}"
+   },
+   {
+    "check": "room.db referential integrity (cluster_founders, cluster_evidence)",
+    "ok": true,
+    "detail": "0 / 0 orphans"
+   }
+  ]
+ },
+ "room_db_tables": {
+  "agent_checks": 14,
+  "agent_claims": 12,
+  "cluster_evidence": 15,
+  "cluster_founders": 20,
+  "cluster_primitives": 28,
+  "clusters": 13,
+  "evidence": 18,
+  "founder_primitives": 32,
+  "founders": 11,
+  "library_refs": 32,
+  "quotes": 22,
+  "threads": 6,
+  "top3_fixes": 3
+ }
+}
