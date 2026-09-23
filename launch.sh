@@ -3,7 +3,7 @@
 # every step reads IDS.env first and skips objects that already exist.
 #
 #   ./launch.sh all          # models -> env -> skill -> memory -> files -> agents -> run
-#   ./launch.sh <step>       # models | env | skill | memory | files | agents | run | status | watch | card | outputs | get <path>
+#   ./launch.sh <step>       # models | env | skill | memory | files | agents | run | status | watch | card | outputs | deploy | fire SWEEP|RETRO | get <path>
 #
 # The API key is loaded from .env and never printed.
 set -euo pipefail
@@ -253,6 +253,47 @@ step_outputs() {
   done
 }
 
+step_deploy() {  # nightly room-sweep (chief of staff, SWEEP) + room-retro (retro), Europe/London
+  python3 - <<'PY' > "$TMP/sweep.json"
+import json, os
+ro, rw = "read_only", "read_write"
+mem = [("MEM_PAIN_LIBRARY", rw), ("MEM_RUN_JOURNAL", rw),
+       ("MEM_DISCOVERY_LESSONS", ro), ("MEM_SCOUT_LESSONS", ro), ("MEM_COORDINATOR_PLAYBOOK", ro)]
+res = [{"type": "memory_store", "memory_store_id": os.environ[v], "access": a} for v, a in mem]
+res += [{"type": "file", "file_id": os.environ["FILE_LINEAR_CASE01"], "mount_path": "/mnt/session/uploads/linear/tickets.json"},
+        {"type": "file", "file_id": os.environ["FILE_NOTION_CASE01"], "mount_path": "/mnt/session/uploads/notion/office-hours-notes.md"}]
+ev = {"type": "user.define_outcome", "description": open("deploy/sweep_prompt.md").read(),
+      "rubric": {"type": "text", "content": open("deploy/sweep_outcome.md").read()}, "max_iterations": 3}
+print(json.dumps({"name": "room-sweep", "agent": os.environ["CHIEF_OF_STAFF_ID"], "environment_id": os.environ["ENV_ID"],
+                  "resources": res, "initial_events": [ev],
+                  "schedule": {"type": "cron", "expression": "0 21 * * *", "timezone": "Europe/London"}}))
+PY
+  python3 - <<'PY' > "$TMP/retro.json"
+import json, os
+ro, rw = "read_only", "read_write"
+mem = [("MEM_RUN_JOURNAL", ro), ("MEM_DISCOVERY_LESSONS", rw), ("MEM_SCOUT_LESSONS", rw), ("MEM_COORDINATOR_PLAYBOOK", rw)]
+res = [{"type": "memory_store", "memory_store_id": os.environ[v], "access": a} for v, a in mem]
+ev = {"type": "user.message", "content": [{"type": "text", "text": open("deploy/retro_prompt.md").read()}]}
+print(json.dumps({"name": "room-retro", "agent": os.environ["RETRO_ID"], "environment_id": os.environ["ENV_ID"],
+                  "resources": res, "initial_events": [ev],
+                  "schedule": {"type": "cron", "expression": "0 22 * * *", "timezone": "Europe/London"}}))
+PY
+  for d in SWEEP:sweep RETRO:retro; do
+    local var="DEPLOY_${d%%:*}_ID" file="$TMP/${d##*:}.json"
+    if [ -n "${!var:-}" ]; then echo "✓ 🗓️ ${d##*:} ${!var} (exists)"; continue; fi
+    api POST "/deployments?beta=true" "$file"
+    save "$var" "$(field "d['id']")"
+    echo "✅ 🗓️ room-${d##*:} ${!var}  next: $(field "', '.join((d.get('schedule') or {}).get('upcoming_runs_at', [])[:2])")"
+    echo "   Console: https://platform.claude.com/workspaces/${WORKSPACE:-default}/deployments/${!var}"
+  done
+}
+
+step_fire() {  # manual run of a deployment now: ./launch.sh fire SWEEP|RETRO
+  local var="DEPLOY_${1:-SWEEP}_ID"
+  api POST "/deployments/${!var}/run?beta=true" <(echo '{}')
+  field "json.dumps({k: d.get(k) for k in ('id', 'session_id', 'status') if k in d})"
+}
+
 load
 case "${1:-all}" in
   all)     step_models; step_env; step_skill; step_memory; step_files; step_agents; step_run ;;
@@ -263,6 +304,7 @@ case "${1:-all}" in
   update)  # ./launch.sh update VAR payload effort ; then refresh the coordinator so its roster picks up the new version
            update_agent "$2" "$3" "$4"
            if [ "$2" != CHIEF_OF_STAFF_ID ]; then update_agent CHIEF_OF_STAFF_ID agents/chief-of-staff.json high; fi ;;
+  deploy)  step_deploy ;;  fire) step_fire "${2:-SWEEP}" ;;
   get)     api GET "$2"; python3 -c "import json; print(json.dumps(json.JSONDecoder(strict=False).decode(open('$TMP/resp.json').read()), indent=1)[:${3:-4000}])" ;;
   *) echo "unknown step: $1"; exit 1 ;;
 esac

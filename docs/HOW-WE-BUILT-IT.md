@@ -88,6 +88,7 @@ Rules learned the hard way are written into the prompt with the reason, for exam
 - 11 agents, environment, custom Skill, 5 memory stores and 2 seeded files live in the Console workspace.
 - Launch, update, status, card and output tooling (`launch.sh`); trace eval; recall and cost scoring; scoreboard.
 - Chief of staff v3 with the thread-discipline fix.
+- Deployments `room-sweep` (21:00 Europe/London, chief of staff v3, `SWEEP` mode) and `room-retro` (22:00 Europe/London) created with `./launch.sh deploy`; kickoffs in `deploy/`.
 
 **In progress**
 
@@ -99,7 +100,6 @@ Rules learned the hard way are written into the prompt with the reason, for exam
 |---|---|
 | Run 2 on chief of staff v3 | `./launch.sh run`, then score; compare on the scoreboard |
 | Held-back case-02 personas | Founder writes 1-2 from `evals/case-02/personas/TEMPLATE.md`; Claude writes the rest |
-| `SWEEP` kickoff + `room-sweep` and `room-retro` deployments | Write `sweep_prompt.txt`, create both deployments after a passing run, fire a manual run |
 | Retro session never run yet | Add `./launch.sh retro` that mounts lessons `read_write` and passes a sanitized grading summary |
 | Live judge interview mode | `./launch.sh live` creating a single-agent discovery session for `ant beta:sessions connect` |
 | Real Linear / Notion / Wispr Flow | NEXT-DIRECTIONS v1 #2 to #4 |

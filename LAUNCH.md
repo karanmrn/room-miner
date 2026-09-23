@@ -29,6 +29,16 @@ python3 evals/score.py $SESSION_ID case-01   # achieved the goal? recall, fabric
 
 Creates a new version under the same ID, then refreshes the Chief of Staff so its roster picks up that version. Re-run both eval cases before promoting to a deployment.
 
+## Deployments (nightly, Europe/London)
+
+```bash
+./launch.sh deploy        # room-sweep 21:00 (SWEEP mode) + room-retro 22:00
+./launch.sh fire SWEEP    # manual run now, same kickoff as the cron
+./launch.sh fire RETRO
+```
+
+Kickoffs live in `deploy/` and use relative dates only: a deployment replays the same kickoff every run.
+
 ## Look at things
 
 ```bash
