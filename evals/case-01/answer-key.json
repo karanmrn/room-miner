@@ -1,0 +1,118 @@
+{
+  "case": "case-01",
+  "note": "NEVER mounted into a session or placed in a rubric. Used only for recall grading after the run.",
+  "pains": [
+    {
+      "id": "P01",
+      "pain": "Unsure how to give the agent third-party credentials safely",
+      "primitive": "vault",
+      "sources": [
+        "call:priya",
+        "linear:FFD-3"
+      ]
+    },
+    {
+      "id": "P02",
+      "pain": "Scheduled run replays a hard-coded date so every run looks at the same day",
+      "primitive": "deployment",
+      "sources": [
+        "call:priya"
+      ]
+    },
+    {
+      "id": "P03",
+      "pain": "Cannot tell which multiagent thread failed or why",
+      "primitive": "multiagent",
+      "sources": [
+        "call:tomas"
+      ]
+    },
+    {
+      "id": "P04",
+      "pain": "Afraid to change the system prompt because there is no easy rollback",
+      "primitive": "agent versioning",
+      "sources": [
+        "call:tomas"
+      ]
+    },
+    {
+      "id": "P05",
+      "pain": "Internal database is not reachable from the internet, so the agent cannot read it",
+      "primitive": "mcp tunnel",
+      "sources": [
+        "call:aisha"
+      ]
+    },
+    {
+      "id": "P06",
+      "pain": "Needs a human to approve before the agent sends anything to a regulator or customer",
+      "primitive": "always_ask / requires_action",
+      "sources": [
+        "call:aisha",
+        "notion:office-hours"
+      ]
+    },
+    {
+      "id": "P07",
+      "pain": "Cost per run is unpredictable; one run burned far more than expected",
+      "primitive": "session budget",
+      "sources": [
+        "call:ben"
+      ]
+    },
+    {
+      "id": "P08",
+      "pain": "Agent forgets everything between runs and repeats itself",
+      "primitive": "memory store",
+      "sources": [
+        "call:ben",
+        "notion:office-hours"
+      ]
+    },
+    {
+      "id": "P09",
+      "pain": "No notification when a scheduled run fails overnight",
+      "primitive": "webhooks",
+      "sources": [
+        "linear:FFD-1",
+        "linear:FFD-2"
+      ]
+    },
+    {
+      "id": "P10",
+      "pain": "Confusing how to download files the agent produced",
+      "primitive": "files api",
+      "sources": [
+        "linear:FFD-4"
+      ]
+    },
+    {
+      "id": "P11",
+      "pain": "No way to measure whether output quality is getting better or worse",
+      "primitive": "outcomes / evals",
+      "sources": [
+        "linear:FFD-5",
+        "notion:office-hours"
+      ]
+    },
+    {
+      "id": "P12",
+      "pain": "Missing Python libraries in the sandbox; installs fail or are slow",
+      "primitive": "environment packages",
+      "sources": [
+        "notion:office-hours"
+      ]
+    }
+  ],
+  "distinct_founder_counts": {
+    "P01": 2,
+    "P08": 2,
+    "P09": 2,
+    "P11": 2,
+    "P06": 2
+  },
+  "pass_bar": {
+    "recall_min": 0.8,
+    "fabricated_quotes_max": 0
+  }
+}

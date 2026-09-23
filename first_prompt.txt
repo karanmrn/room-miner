@@ -1,0 +1,12 @@
+MODE: EVAL
+
+Find out what founders are stuck on when building managed agents, as of this run.
+
+1. Run one discovery call with each of these simulated founders, in parallel: founder-priya, founder-tomas, founder-aisha, founder-ben.
+2. Send linear-scout to read every issue in the Linear export mounted at /mnt/session/uploads/linear/tickets.json (all time).
+3. Send notion-scout to read the Notion export mounted at /mnt/session/uploads/notion/office-hours-notes.md.
+4. Send the miner everything, and have it write /mnt/session/outputs/room-report.md in EVAL mode.
+5. Send the data-analyst the miner's output, and have it build data/room.db, data/metrics.json and /mnt/session/outputs/dashboard.html.
+6. Keep /mnt/session/outputs/run-manifest.json current for every step above, and append this run's entry to the run journal.
+
+The reader is Anthropic developer relations. They want the top pains, backed by founders' own words, and the doc, skill or API fix for each.

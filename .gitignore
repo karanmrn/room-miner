@@ -1,0 +1,10 @@
+# secrets and workspace-local state
+.env
+IDS.env
+# local logs and scratch
+runs.log
+runs.watch.log
+*.txt
+!first_prompt.txt
+.DS_Store
+__pycache__/

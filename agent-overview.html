@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>room-miner - agent schema</title>
+<link rel="stylesheet" href="overview.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="ident">
+      <div class="sigil">🤖</div>
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h1>room-miner</h1>
+          <span class="statepill live"><span class="led live"></span>LAUNCHED · FIRST RUN</span>
+        </div>
+        <div class="byline">Claude Managed Agent · Karan Manoharan · created 2026-09-23</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-k">Model</div><div class="stat-v">claude-opus-5-5</div></div>
+      <div class="stat"><div class="stat-k">Runs</div><div class="stat-v">nightly 21:00 <span class="dim">London</span></div></div>
+      <div class="stat"><div class="stat-k">Coordinator</div><div class="stat-v"><a class="console" href="https://platform.claude.com/workspaces/default/agents/agent_014JWhYRDC7Vcuzj7n8rECtB">agent_014JWhYRDC7Vcuzj7n8rECtB</a> <span class="dim">v2</span></div></div>
+      <div class="stat"><div class="stat-k">Deployments</div><div class="stat-v"><span class="dim">after first pass</span></div></div>
+    </div>
+  </div>
+
+  <p class="problem">Understand founders' pain points and discover what they want to use their agent for, the way solution architects, developer relations and sales engineers run discovery calls, with a Chief of Staff that deploys specialised agents.</p>
+
+  <p class="lane-label">System schema</p>
+  <div class="pipeline">
+
+    <div class="col">
+      <p class="col-title">Trigger</p>
+      <div class="node key grow">
+        <div class="node-head"><span class="node-icon">🗓️</span><h2>Deployments</h2><span class="node-meta">cron · <b>2 schedules</b></span></div>
+        <div class="node-body">
+          <div class="field"><div class="field-k">room-sweep · schedule.expression / timezone</div><strong>0 21 * * *</strong> <span class="sub small">Europe/London</span>
+            <p class="small sub">Scouts collect new Linear + Notion evidence, miner updates the pain-library, digest leads with new and growing pains.</p></div>
+          <div class="field"><div class="field-k">room-retro · schedule.expression / timezone</div><strong>0 22 * * *</strong> <span class="sub small">Europe/London</span>
+            <p class="small sub">Reads the latest sweep's transcript + verdict, writes method lessons. Never touches Linear or Notion.</p></div>
+          <div class="field"><div class="field-k">Status</div><span class="tag">created after the first run passes</span></div>
+        </div>
+        <div class="node-foot">▶️ Graded eval runs (simulated founders) fire on demand from <code>LAUNCH.md</code> and <code>evals/run-evals.sh</code>.</div>
+      </div>
+    </div>
+
+    <div class="joint" aria-hidden="true"></div>
+
+    <div class="col">
+      <p class="col-title">Worker</p>
+      <div class="env-frame">
+        <span class="env-tab">📦 environment · type: cloud · networking: limited · allowed_hosts: none</span>
+
+        <div class="node key">
+          <div class="node-head"><span class="node-icon">🤖</span><h2>chief-of-staff</h2><span class="node-meta"><b>multiagent · coordinator</b> · v2</span></div>
+          <div class="node-body">
+            <div class="field"><div class="field-k">system · the job</div>
+              <p class="small">Dispatches a discovery call per founder plus the Linear and Notion scouts in parallel threads, then merges every evidence item through the miner into <code>/mnt/session/outputs/room-report.md</code>.</p></div>
+            <div class="field"><div class="field-k">multiagent.agents[] · roster</div>
+              <span class="tag on">discovery-agent</span><span class="tag on">linear-scout</span><span class="tag on">notion-scout</span><span class="tag on">miner</span><span class="tag on">data-analyst</span><span class="tag">founder-priya</span><span class="tag">founder-tomas</span><span class="tag">founder-aisha</span><span class="tag">founder-ben</span></div>
+          </div>
+        </div>
+
+        <div class="attach-grid">
+          <div class="attach">
+            <h3>🛠️ Tools</h3>
+            <p><code>tools[] · agent_toolset_20260401</code> per agent, trimmed with <code>configs[]</code>: discovery-agent <span class="tag on">write</span> only · scouts <span class="tag on">read</span><span class="tag on">write</span><span class="tag on">glob</span> · founders none</p>
+          </div>
+          <div class="attach ghost">
+            <h3>🔌 Connectors &amp; 🔐 vaults</h3>
+            <p><code>mcp_servers[]</code> + <code>vault_ids[]</code> empty in v0. Linear and Notion are mocked: seeded exports mounted via <code>resources[] · file</code>. Hosted Linear MCP is next on the version rail.</p>
+          </div>
+          <div class="attach">
+            <h3>🧠 Memory stores</h3>
+            <p><code>resources[] · memory_store</code> <strong>pain-library</strong>, <strong>run-journal</strong> <span class="tag good">read_write</span> · <strong>discovery-lessons</strong>, <strong>scout-lessons</strong>, <strong>coordinator-playbook</strong> <span class="tag">read_only in runs</span> <span class="tag good">read_write in retro</span></p>
+          </div>
+          <div class="attach">
+            <h3>📄 Skills</h3>
+            <p><code>skills[]</code> <strong>discovery-playbook</strong> (custom) on discovery-agent · Mom Test + SPIN, 6-8 questions, needs brief with 5 fields.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="joint" aria-hidden="true"></div>
+
+    <div class="col">
+      <p class="col-title">Output &amp; grading</p>
+
+      <div class="node">
+        <div class="node-head"><span class="node-icon">📤</span><h2>Deliverable</h2><span class="node-meta">files api</span></div>
+        <div class="node-body">
+          <p class="small"><code>room-report.md</code> ranked pain clusters with quotes and fixes · <code>dashboard.html</code> + <code>data/metrics.json</code> · <code>briefs/&lt;founder&gt;.md</code> · <code>run-manifest.json</code></p>
+          <div class="field"><div class="field-k">Guardrails in effect</div>
+            <span class="tag">max_iterations: 3</span><span class="tag">read-only sources</span><span class="tag">answer key never in a session</span></div>
+        </div>
+      </div>
+
+      <div class="node key grow">
+        <div class="node-head"><span class="node-icon">🎯</span><h2>Outcome</h2><span class="node-meta"><b>user.define_outcome</b> · max_iterations 3</span></div>
+        <div class="node-body">
+          <p class="small sub" style="margin-bottom:8px;">Your definition of done: <code>rubric.content</code>, graded by the platform every run.</p>
+          <ol class="rubric small">
+            <li>At least 5 pain clusters, ranked by distinct founders</li>
+            <li>2+ verbatim quotes per cluster, each tagged with source and link</li>
+            <li>Every quote appears word for word in the evidence</li>
+            <li>Evidence from call, linear and notion all appears</li>
+            <li>Every founder has a 5-field needs brief with real primitive names</li>
+            <li>Every cluster has a concrete fix; blocker tally by primitive</li>
+            <li>Run manifest: every kickoff step done; dashboard numbers match metrics.json</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane-grid">
+    <div class="lane">
+      <div class="lane-head"><span class="node-icon">📜</span><h2>Sessions · run log</h2><span class="lane-meta">1 run</span></div>
+      <div class="lane-body">
+        <div class="overflow">
+        <table>
+          <thead><tr><th>Run</th><th>Session</th><th>Rubric</th><th>Recall</th><th>Tokens in / out</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td>1 · case-01</td><td class="mono"><a class="console" href="https://platform.claude.com/workspaces/default/sessions/sesn_011kSuBTakzJiDVa6UK2zYnk">sesn_011kSuBTakzJiDVa6UK2zYnk</a></td><td><span class="tag">running</span></td><td>-</td><td class="sub">-</td><td class="sub">-</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lane-head"><span class="node-icon">🧪</span><h2>Evals</h2><span class="lane-meta">2 cases · recall + faithfulness</span></div>
+      <div class="lane-body">
+        <div class="overflow">
+        <table>
+          <thead><tr><th>Case</th><th>Known-good answer</th><th>Last verdict</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">case-01</td><td>answer-key.json · 4 calls + Linear + Notion</td><td><span class="tag">not run yet</span></td></tr>
+            <tr><td class="mono">case-02</td><td>answer-key.json · 4 new personas (held back)</td><td><span class="tag">not run yet</span></td></tr>
+          </tbody>
+        </table>
+        </div>
+        <p class="small sub" style="margin:.5em 0 0;">Pass bar: at least 80% recall, 0 fabricated quotes. Eval runs mount every memory store read_only.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="lane full">
+    <div class="lane-head"><span class="node-icon">🧭</span><h2>Next directions</h2><span class="lane-meta">the version rail</span></div>
+    <div class="lane-body">
+      <div class="rail">
+        <div class="ver">
+          <div class="ver-tag">v1</div>
+          <div class="ver-what">Real founders chat with the discovery agent</div>
+          <div class="ver-why">Out of scope for v0: needs a chat surface</div>
+          <div class="ver-how">One ▶️ session per founder conversation; transcripts flow to the miner unchanged</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v1</div>
+          <div class="ver-what">Linear for real</div>
+          <div class="ver-why">Needs a Linear API key not on hand</div>
+          <div class="ver-how">🔌 hosted MCP + 🔐 vault <span class="mono">static_bearer</span>; payload ready</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v1</div>
+          <div class="ver-what">Notion for real</div>
+          <div class="ver-why">Needs a Notion integration token not on hand</div>
+          <div class="ver-how">🔐 vault <span class="mono">environment_variable</span> NOTION_API_KEY, locked to api.notion.com</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v1</div>
+          <div class="ver-what">Wispr Flow voice notes</div>
+          <div class="ver-why">Out of scope for v0</div>
+          <div class="ver-how">Files API mount + voice-notes-scout in the roster</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">v2</div>
+          <div class="ver-what">Same founder across sources</div>
+          <div class="ver-why">Out of scope for v0: its own hard problem</div>
+          <div class="ver-how">Identity step in the miner, stored in the pain-library</div>
+        </div>
+        <div class="ver">
+          <div class="ver-tag">always</div>
+          <div class="ver-what">Re-run evals before promoting a new version</div>
+          <div class="ver-why">Gates the slow learning loop</div>
+          <div class="ver-how"><span class="mono">evals/run-evals.sh</span>, promote to 🗓️ only when verdicts hold</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>generated from build-sheet.json by claude code · live runs &amp; traces: <a href="https://platform.claude.com/workspaces/default/agents">open the console</a> (your key's workspace; swap "default" if yours differs)</footer>
+</div>
+</body>
+</html>
