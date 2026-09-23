@@ -1,0 +1,67 @@
+{
+  "run_at": "2026-09-23T16:14:57+00:00",
+  "case": "case-01",
+  "session": "sesn_011kSuBTakzJiDVa6UK2zYnk",
+  "agent_version": "3",
+  "outcome": "satisfied",
+  "trace_pass": false,
+  "recall": 0.917,
+  "fabricated_quotes": 0,
+  "relay_exact": "6/6",
+  "tokens_in": 11456039,
+  "tokens_out": 189036,
+  "cost_usd": 9.33,
+  "active_s": 1373,
+  "cost_per_recalled_pain": 0.848,
+  "verdicts": {
+    "P01": {
+      "found": true,
+      "cluster": "No obvious place for API keys, so they end up in the prompt"
+    },
+    "P02": {
+      "found": true,
+      "cluster": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs"
+    },
+    "P03": {
+      "found": true,
+      "cluster": "Can't reconstruct what a run did, which agent did it, or what it cost"
+    },
+    "P04": {
+      "found": false,
+      "cluster": null
+    },
+    "P05": {
+      "found": true,
+      "cluster": "Agent can't reach data inside the company's private network (VPC)"
+    },
+    "P06": {
+      "found": true,
+      "cluster": "Must have a human approve before the agent acts externally (requirement)"
+    },
+    "P07": {
+      "found": true,
+      "cluster": "Runaway run: no spend cap or stopping point"
+    },
+    "P08": {
+      "found": true,
+      "cluster": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs"
+    },
+    "P09": {
+      "found": true,
+      "cluster": "Failed or stalled runs fail silently: nobody gets told"
+    },
+    "P10": {
+      "found": true,
+      "cluster": "Can't get output files out of a finished session"
+    },
+    "P11": {
+      "found": true,
+      "cluster": "No way to score agent quality over time or across changes"
+    },
+    "P12": {
+      "found": true,
+      "cluster": "Sandbox dependency setup eats the first day"
+    }
+  },
+  "fabricated": []
+}

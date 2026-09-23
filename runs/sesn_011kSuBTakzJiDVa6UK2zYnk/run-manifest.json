@@ -1,0 +1,107 @@
+{
+  "mode": "EVAL",
+  "steps": [
+    {
+      "step": 1,
+      "task": "Run one discovery call with each simulated founder, in parallel: founder-priya, founder-tomas, founder-aisha, founder-ben.",
+      "delegated_to": [
+        "room-miner-discovery-agent",
+        "room-miner-founder-priya",
+        "room-miner-founder-tomas",
+        "room-miner-founder-aisha",
+        "room-miner-founder-ben"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/calls/priya/transcript.md",
+        "/mnt/session/outputs/calls/priya/needs-brief.md",
+        "/mnt/session/outputs/calls/tomas/transcript.md",
+        "/mnt/session/outputs/calls/tomas/needs-brief.md",
+        "/mnt/session/outputs/calls/aisha/transcript.md",
+        "/mnt/session/outputs/calls/aisha/needs-brief.md",
+        "/mnt/session/outputs/calls/ben/transcript.md",
+        "/mnt/session/outputs/calls/ben/needs-brief.md",
+        "/mnt/session/outputs/briefs/priya.md",
+        "/mnt/session/outputs/calls/priya.md",
+        "/mnt/session/outputs/briefs/tomas.md",
+        "/mnt/session/outputs/calls/tomas.md",
+        "/mnt/session/outputs/briefs/aisha.md",
+        "/mnt/session/outputs/calls/aisha.md",
+        "/mnt/session/outputs/briefs/ben.md",
+        "/mnt/session/outputs/calls/ben.md"
+      ],
+      "status": "done",
+      "notes": "Four calls run in parallel, 8 questions each, relayed verbatim by the Chief of Staff; each ended with CALL COMPLETE. A stray extra founder-aisha instance was spawned by mistake with the text 'placeholder'; its reply was ignored and never relayed, so it is not part of any transcript. Revision 1 (grader): each discovery agent also wrote its needs brief to the standard location briefs/<slug>.md and its transcript to calls/<slug>.md, byte-identical to the calls/<slug>/ originals."
+    },
+    {
+      "step": 2,
+      "task": "Send linear-scout to read every issue in /mnt/session/uploads/linear/tickets.json (all time).",
+      "delegated_to": [
+        "room-miner-linear-scout"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/evidence/linear-evidence.json",
+        "/mnt/session/outputs/evidence/linear-notes.md"
+      ],
+      "status": "done",
+      "notes": "5 of 5 issues read (team FFD, all time), giving 5 evidence items."
+    },
+    {
+      "step": 3,
+      "task": "Send notion-scout to read /mnt/session/uploads/notion/office-hours-notes.md.",
+      "delegated_to": [
+        "room-miner-notion-scout"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/evidence/notion-evidence.json",
+        "/mnt/session/outputs/evidence/notion-notes.md"
+      ],
+      "status": "done",
+      "notes": "1 page read, giving 6 evidence items: 3 founder quotes, 1 note-taker paraphrase, 2 mentor observations."
+    },
+    {
+      "step": 4,
+      "task": "Send the miner everything; it writes /mnt/session/outputs/room-report.md in EVAL mode.",
+      "delegated_to": [
+        "room-miner-miner"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/room-report.md",
+        "/mnt/session/outputs/clusters.json",
+        "/mnt/session/outputs/evidence/call.jsonl",
+        "/mnt/session/outputs/evidence/call-nonproblems.jsonl"
+      ],
+      "status": "done",
+      "notes": "Ranked 10 clusters across 10 distinct founders. The miner checked all 33 quotes by script as exact substrings of the evidence. The pain library was updated at /mnt/memory/room-miner-pain-library/. Revision 1 (grader): the miner moved the blocker tally by CMA primitive to the end of room-report.md, cited briefs/<slug>.md, and added a needs_briefs map to clusters.json. Quotes, counts and rankings are unchanged."
+    },
+    {
+      "step": 5,
+      "task": "Send the data-analyst the miner's output; it builds data/room.db, data/metrics.json and /mnt/session/outputs/dashboard.html.",
+      "delegated_to": [
+        "room-miner-data-analyst"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/data/room.db",
+        "/mnt/session/outputs/data/metrics.json",
+        "/mnt/session/outputs/dashboard.html",
+        "/mnt/session/outputs/data/README.md",
+        "/mnt/session/outputs/data/build.py",
+        "/mnt/session/outputs/data/render.py"
+      ],
+      "status": "done",
+      "notes": "room.db has 9 tables. metrics.json includes a verification block. The dashboard is self-contained with 0 external URLs. The analyst found no mismatches against room-report.md or clusters.json. Revision 1: rebuilt with brief_path set to briefs/<slug>.md, and the checks re-run against the revised report with 0 mismatches."
+    },
+    {
+      "step": 6,
+      "task": "Keep run-manifest.json current for every step and append this run's entry to the run journal.",
+      "delegated_to": [
+        "chief-of-staff"
+      ],
+      "outputs": [
+        "/mnt/session/outputs/run-manifest.json",
+        "/mnt/memory/room-miner-run-journal/2026-09-23-EVAL.md"
+      ],
+      "status": "done",
+      "notes": "Manifest updated after each step. Journal entry appended. The system prompt names /mnt/memory/run-journal/, but the mounted store is /mnt/memory/room-miner-run-journal/."
+    }
+  ]
+}

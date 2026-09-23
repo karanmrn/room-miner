@@ -58,22 +58,30 @@ def main(session_id, case):
         sys.exit(f"no room-report.md under {out}; run ./launch.sh outputs {session_id} first")
     key = json.loads((ROOT / "evals" / case / "answer-key.json").read_text())
 
-    # evidence corpus: every evidence item text + every transcript
-    corpus = []
-    for f in (out / "evidence").glob("*.jsonl"):
-        for line in f.read_text().splitlines():
-            try:
-                corpus.append(norm(json.loads(line).get("text", "")))
-            except json.JSONDecodeError:
-                pass
+    # ground truth = what founders actually said: call transcripts + the seeded source files for this case.
+    # Agent-derived files (evidence JSON, clusters) are deliberately excluded so a quote can't be laundered.
     transcripts = {f.stem: f.read_text() for f in (out / "calls").glob("*.md")}
-    corpus += [norm(t) for t in transcripts.values()]
+    corpus = [norm(t) for t in transcripts.values()]
+    for f in (ROOT / "evals" / case).rglob("*"):
+        if f.is_file() and f.parent.name in ("linear", "notion"):
+            corpus.append(norm(f.read_text().replace('\\"', '"')))
     blob = "\n".join(corpus)
 
     # fabricated quotes (exact, whitespace- and apostrophe-normalised)
-    quoted = []
-    for f in [out / "room-report.md", *sorted((out / "briefs").glob("*.md"))]:
-        quoted += [(f.name, q) for q in QUOTE.findall(f.read_text())]
+    # quotes = blockquote paragraphs in the report (attribution lines starting with a dash excluded),
+    # plus double-quoted strings in the briefs' blockers
+    quoted, para = [], []
+    for line in report.splitlines() + [""]:
+        s = line.strip()
+        if s.startswith(">") and not s.lstrip("> ").startswith(("—", "-", "–")) and s.lstrip("> "):
+            para.append(s.lstrip("> ").strip())
+        elif para:
+            quoted.append(("room-report.md", " ".join(para).strip('"“”'))); para = []
+    for f in sorted((out / "briefs").glob("*.md")):
+        b = f.read_text()
+        m = re.search(r"(?is)blockers(.*?)(?:\n#+\s|\n\*\*|\n-\s*\*\*)(?:definition_of_done|definition of done)", b)
+        section = m.group(1) if m else ""
+        quoted += [(f.name, q) for line in section.splitlines() for q in re.findall(r"[\"“]([^\"“”\n]{15,})[\"”]", line)]
     fabricated = [(f, q) for f, q in quoted if norm(q) not in blob]
 
     # relay fidelity: persona verbatim lines that reached a transcript exactly vs. altered
@@ -91,13 +99,13 @@ def main(session_id, case):
     # recall: LLM judge, answer key outside the session
     pains = "\n".join(f"{p['id']}: {p['pain']}" for p in key["pains"])
     judge = call("POST", "/messages", beta=None, body={
-        "model": JUDGE_MODEL, "max_tokens": 2000,
+        "model": JUDGE_MODEL, "max_tokens": 8000,
         "messages": [{"role": "user", "content":
             "You grade recall. For each hidden pain below, decide whether the REPORT surfaces the same "
             "underlying pain (same root problem, any wording), with at least one supporting quote.\n\n"
             f"HIDDEN PAINS:\n{pains}\n\nREPORT:\n{report}\n\n"
             'Reply with JSON only: {"P01": {"found": true, "cluster": "<report cluster name or null>"}, ...}'}]})
-    text = judge["content"][0]["text"]
+    text = "".join(b.get("text", "") for b in judge["content"] if b.get("type") == "text")
     verdicts = json.loads(text[text.find("{"): text.rfind("}") + 1])
     found = [pid for pid, v in verdicts.items() if v.get("found")]
     recall = len(found) / len(key["pains"])

@@ -44,9 +44,19 @@ Everything that is deliberately not in v0, slotted into planned versions. Each i
 - **Why deferred:** Process habit; the claim is invalid without it.
 - **How:** `evals/run-evals.sh` runs both cases per agent version with every memory store mounted read_only.
 
+### 8. trace-auditor specialist
+- **What:** A specialist that reads another run's threads and events and reports wrong calls, stray threads, lost context and cost per agent, in plain language.
+- **Why deferred:** Out of scope for v0. Surfaced live in discovery: the founder's own pain was "sometimes calling the wrong agent for the task" and "I couldn't tell if the task was really done", which no roster agent covers today.
+- **How:** Wrap `evals/trace_eval.py`'s checks as instructions for a new roster agent with read-only access to a mounted export of the session's threads and events; route to it on triggers like "wrong agent", "lost track", "is it done".
+
+### 9. Keep folder layout in outputs
+- **What:** The chief of staff zips `/mnt/session/outputs/` into `bundle.zip` (Python `zipfile`) at the end of every run.
+- **Why deferred:** Found in run 1: the Files API keeps bare filenames only, so four `transcript.md` files collide. `evals/fetch_outputs.py` rebuilds the layout by content as a workaround.
+- **How:** One line in the chief of staff's end-of-run instructions (v4); `fetch_outputs.py` unzips `bundle.zip` when present.
+
 ## v2
 
-### 8. Resolve the same founder across sources
+### 10. Resolve the same founder across sources
 - **What:** Recognise that "@karan" in Linear, "Karan M." in Notion and a call transcript are the same person, and merge their evidence.
 - **Why deferred:** Out of scope for v0. Identity resolution is its own hard problem; v0 keeps founders distinct per source.
 - **How:** An identity step in the miner (or a small resolver specialist) that keys on email/handle where available and fuzzy name + context otherwise, with an `unresolved` bucket rather than guessing. Store resolved identities in the `pain-library` memory store.

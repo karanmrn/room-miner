@@ -1,0 +1,1305 @@
+{
+ "run_id": "eval-2026-09-23",
+ "mode": "EVAL",
+ "generated": "2026-09-23",
+ "sources_of_truth": [
+  "room-report.md",
+  "clusters.json",
+  "evidence/*",
+  "briefs/*.md",
+  "calls/*/transcript.md",
+  "/mnt/memory/room-miner-pain-library/*.md"
+ ],
+ "headline": {
+  "distinct_founders": 10,
+  "clusters": 10,
+  "blocker_clusters": 9,
+  "requirement_clusters": 1,
+  "founders_stopped_or_paused": 4,
+  "multi_founder_clusters": 5,
+  "multi_source_clusters": 4,
+  "top_cluster_founders": 3,
+  "evidence_items_total": 29,
+  "evidence_items_founder_words": 25,
+  "evidence_items_not_founder_words": 4,
+  "quotes_in_clusters": 30,
+  "quotes_verbatim": 30,
+  "source_types": 3
+ },
+ "clusters": [
+  {
+   "rank": 1,
+   "id": "silent-run-failures",
+   "name": "Failed or stalled runs fail silently: nobody gets told",
+   "kind": "blocker",
+   "pain": "When an unattended run errors or a sub-agent hangs, there is no failure signal. Founders find out from a missing report, a daily console check, or a coordinator that waits forever.",
+   "primitives": [
+    "webhooks",
+    "deployment",
+    "session",
+    "multiagent"
+   ],
+   "founder_count": 3,
+   "founders": [
+    "Maya Lin (Orbit Health)",
+    "Jonas Weber (Freightly)",
+    "Tomas (Patchwork)"
+   ],
+   "stopped_count": 1,
+   "stopped": [
+    "Tomas (Patchwork)"
+   ],
+   "sources": [
+    "call",
+    "linear"
+   ],
+   "fix_type": "API change",
+   "fix": "Add failure notifications to deployments: webhook events for session failed/errored/terminated, plus a default idle timeout on multiagent sub-threads that raises a thread.idle_timeout error to the coordinator and fires the same webhook, instead of waiting forever. Ship it with a short doc recipe, \"Get pinged when a scheduled run fails\".",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 4,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "Our scheduled agent errored at 2am. We only found out when the team asked where the report was.",
+     "author": "Maya Lin (Orbit Health)",
+     "source": "linear",
+     "link": "FFD-1",
+     "evidence_id": "FFD-1",
+     "verbatim": true
+    },
+    {
+     "text": "I need to know when the cron run breaks. Right now I check the console by hand every morning.",
+     "author": "Jonas Weber (Freightly)",
+     "source": "linear",
+     "link": "FFD-2",
+     "evidence_id": "FFD-2",
+     "verbatim": true
+    },
+    {
+     "text": "One of the sub-agents just went quiet and the coordinator kept waiting.",
+     "author": "Tomas (Patchwork)",
+     "source": "call",
+     "link": "calls/tomas/transcript.md#Q3",
+     "evidence_id": "call:tomas:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "I could see the coordinator's last message go out, and after that just nothing, no error and no timeout.",
+     "author": "Tomas (Patchwork)",
+     "source": "call",
+     "link": "calls/tomas/transcript.md#Q4",
+     "evidence_id": "call:tomas:Q4",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 2,
+   "id": "stale-recurring-runs",
+   "name": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs",
+   "kind": "blocker",
+   "pain": "Scheduled runs don't know what changed since the last run. They either replay a frozen input (a hardcoded date) or forget what earlier runs already handled, so the same stale output comes back every day and trust erodes.",
+   "primitives": [
+    "deployment",
+    "memory store"
+   ],
+   "founder_count": 2,
+   "founders": [
+    "Priya (Lumen Skin)",
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "stopped_count": 1,
+   "stopped": [
+    "Priya (Lumen Skin)"
+   ],
+   "sources": [
+    "call",
+    "notion"
+   ],
+   "fix_type": "API change + doc",
+   "fix": "Have deployments inject run context into every session they start (scheduled_for, run_number, last_successful_run_at) so task text never hardcodes a date. Document it in a \"Designing a recurring agent\" guide that separates per-run inputs (from run context) from persistent state (a memory store of items already handled, e.g. carriers already escalated).",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 3,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "It ran every night but kept checking stock for the 14th. I'd typed the date into the task and it just replayed it forever.",
+     "author": "Priya (Lumen Skin)",
+     "source": "call",
+     "link": "calls/priya/transcript.md#Q6",
+     "evidence_id": "call:priya:Q6",
+     "verbatim": true
+    },
+    {
+     "text": "Once I noticed, I stopped believing anything it told me and went back to checking Shopify myself at night.",
+     "author": "Priya (Lumen Skin)",
+     "source": "call",
+     "link": "calls/priya/transcript.md#Q7",
+     "evidence_id": "call:priya:Q7",
+     "verbatim": true
+    },
+    {
+     "text": "It doesn't remember which carriers we already escalated, so it re-flags them every day.",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "source": "notion",
+     "link": "notion-002",
+     "evidence_id": "notion-002",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 3,
+   "id": "run-opacity",
+   "name": "Can't reconstruct what a run did, which agent did it, or what it cost",
+   "kind": "blocker",
+   "pain": "After a bad run, founders rebuild the story by hand, from interleaved raw logs or by matching output against the bill. They can't see per-agent steps or per-run cost.",
+   "primitives": [
+    "session",
+    "multiagent",
+    "budget"
+   ],
+   "founder_count": 2,
+   "founders": [
+    "Tomas (Patchwork)",
+    "Ben (climate-investor newsletter)"
+   ],
+   "stopped_count": 1,
+   "stopped": [
+    "Tomas (Patchwork)"
+   ],
+   "sources": [
+    "call"
+   ],
+   "fix_type": "API change",
+   "fix": "Tag every session event with thread_id and agent name, and add a running cost/token total to the event stream. Support filtering by thread and a per-thread last-step and wait-state summary, so \"which agent stalled, on what step, and what did this run cost\" is answered by one API call rather than by reading raw logs.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 5,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "I had no idea which thread died or why.",
+     "author": "Tomas (Patchwork)",
+     "source": "call",
+     "link": "calls/tomas/transcript.md#Q3",
+     "evidence_id": "call:tomas:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "What I got was one big interleaved stream with no clean way to tell which agent a line belonged to or what the coordinator thought it was waiting on.",
+     "author": "Tomas (Patchwork)",
+     "source": "call",
+     "link": "calls/tomas/transcript.md#Q4",
+     "evidence_id": "call:tomas:Q4",
+     "verbatim": true
+    },
+    {
+     "text": "the whole \"auto-approve trivial PRs\" goal is on hold until I can actually see what each agent is doing.",
+     "author": "Tomas (Patchwork)",
+     "source": "call",
+     "link": "calls/tomas/transcript.md#Q6",
+     "evidence_id": "call:tomas:Q6",
+     "verbatim": true
+    },
+    {
+     "text": "I only noticed when I checked my bill",
+     "author": "Ben (climate-investor newsletter)",
+     "source": "call",
+     "link": "calls/ben/transcript.md#Q4",
+     "evidence_id": "call:ben:Q4",
+     "verbatim": true
+    },
+    {
+     "text": "mostly by scrolling through the output it dumped into my doc that morning, which was this enormous pile of paper summaries. I matched that against the usage on my bill",
+     "author": "Ben (climate-investor newsletter)",
+     "source": "call",
+     "link": "calls/ben/transcript.md#Q5",
+     "evidence_id": "call:ben:Q5",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 4,
+   "id": "secrets-in-prompt",
+   "name": "No obvious place for API keys, so they end up in the prompt",
+   "kind": "blocker",
+   "pain": "Founders connecting a third-party API can't find where a credential should live, so they paste it into the prompt or stop to ask.",
+   "primitives": [
+    "vault",
+    "MCP connector"
+   ],
+   "founder_count": 2,
+   "founders": [
+    "Priya (Lumen Skin)",
+    "Sam Ortiz (Tallybook)"
+   ],
+   "stopped_count": 0,
+   "stopped": [],
+   "sources": [
+    "call",
+    "linear"
+   ],
+   "fix_type": "Doc (+ API warning hook)",
+   "fix": "Write a \"Where do API keys go?\" vault quickstart: store the key in a vault, reference it from the MCP connector or tool config, and never put it in the prompt. Link it from the agent-creation page, and make the agent/session create API return a warning with that link when it sees a key-shaped string in a system prompt or task.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 3,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "I literally pasted my Shopify key into the prompt because I couldn't figure out where else it goes.",
+     "author": "Priya (Lumen Skin)",
+     "source": "call",
+     "link": "calls/priya/transcript.md#Q3",
+     "evidence_id": "call:priya:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "I poked around looking for somewhere obvious to put it, didn't find anything that made sense to me, and I was tired.",
+     "author": "Priya (Lumen Skin)",
+     "source": "call",
+     "link": "calls/priya/transcript.md#Q4",
+     "evidence_id": "call:priya:Q4",
+     "verbatim": true
+    },
+    {
+     "text": "I don't want the key in the prompt. What's the right place to put it so the agent can use it but can't leak it?",
+     "author": "Sam Ortiz (Tallybook)",
+     "source": "linear",
+     "link": "FFD-3",
+     "evidence_id": "FFD-3",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 5,
+   "id": "no-quality-scoreboard",
+   "name": "No way to score agent quality over time or across changes",
+   "kind": "blocker",
+   "pain": "After changing instructions, founders can't tell whether output got better or worse. They eyeball a couple of outputs and have no numbers.",
+   "primitives": [
+    "outcome",
+    "agent"
+   ],
+   "founder_count": 2,
+   "founders": [
+    "Dev Patel (Quillstack)",
+    "Omar Haddad (Stackly)"
+   ],
+   "stopped_count": 0,
+   "stopped": [],
+   "sources": [
+    "linear",
+    "notion"
+   ],
+   "fix_type": "API change + skill",
+   "fix": "Persist outcome grader scores per session, keyed by agent version, with a list/aggregate endpoint (score by version over time). Ship an \"eval harness\" skill that replays a fixed input set against two agent versions and reports the score delta.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 2,
+   "uncounted_context": [
+    "notion-004"
+   ],
+   "paraphrase_note": "notion-004 is a mentor paraphrase (not founder words): Omar wants to show investors the agent is improving but has no numbers. It is context only and is not quoted or counted separately.",
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "We changed the instructions last week and I have a feeling the output got worse, but I can't prove it.",
+     "author": "Dev Patel (Quillstack)",
+     "source": "linear",
+     "link": "FFD-5",
+     "evidence_id": "FFD-5",
+     "verbatim": true
+    },
+    {
+     "text": "Is there a standard way to score runs over time?",
+     "author": "Dev Patel (Quillstack)",
+     "source": "linear",
+     "link": "FFD-5",
+     "evidence_id": "FFD-5",
+     "verbatim": true
+    },
+    {
+     "text": "I have no scoreboard. I tweak something, eyeball two outputs, and hope.",
+     "author": "Omar Haddad (Stackly)",
+     "source": "notion",
+     "link": "notion-003",
+     "evidence_id": "notion-003",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 6,
+   "id": "runaway-spend",
+   "name": "Runaway run: no spend cap or stopping point",
+   "kind": "blocker",
+   "pain": "A self-directed run kept going with no budget and no completion criterion, and cost more than the previous week in one go. The founder turned the agent off.",
+   "primitives": [
+    "budget",
+    "outcome"
+   ],
+   "founder_count": 1,
+   "founders": [
+    "Ben (climate-investor newsletter)"
+   ],
+   "stopped_count": 1,
+   "stopped": [
+    "Ben (climate-investor newsletter)"
+   ],
+   "sources": [
+    "call"
+   ],
+   "fix_type": "API change",
+   "fix": "Make a per-session budget cap the default on scheduled deployments (opt out, not opt in), with a webhook at 80% and at the cap. Document pairing it with an outcome stop criterion (e.g. \"draft with 5-6 items written\") so the run ends when the job is done.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 2,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "One run went down a rabbit hole and cost me more than the whole previous week. I had no cap on it.",
+     "author": "Ben (climate-investor newsletter)",
+     "source": "call",
+     "link": "calls/ben/transcript.md#Q3",
+     "evidence_id": "call:ben:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "There was nothing telling it \"okay, that's enough, go write the draft,\" so it just kept going.",
+     "author": "Ben (climate-investor newsletter)",
+     "source": "call",
+     "link": "calls/ben/transcript.md#Q4",
+     "evidence_id": "call:ben:Q4",
+     "verbatim": true
+    },
+    {
+     "text": "so I shut it off pretty quick after that.",
+     "author": "Ben (climate-investor newsletter)",
+     "source": "call",
+     "link": "calls/ben/transcript.md#Q3",
+     "evidence_id": "call:ben:Q3",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 7,
+   "id": "private-network-data",
+   "name": "Agent can't reach data inside the company's private network (VPC)",
+   "kind": "blocker",
+   "pain": "The cloud-hosted agent can't reach a database inside the VPC. Opening the database to the internet is unacceptable, and manual exports defeat the purpose.",
+   "primitives": [
+    "MCP connector",
+    "environment",
+    "vault"
+   ],
+   "founder_count": 1,
+   "founders": [
+    "Aisha (Ledgerline)"
+   ],
+   "stopped_count": 1,
+   "stopped": [
+    "Aisha (Ledgerline)"
+   ],
+   "sources": [
+    "call"
+   ],
+   "fix_type": "Doc + reference skill",
+   "fix": "Publish a \"Reach a database inside your VPC\" guide with a reference self-hosted MCP server. It runs inside the VPC, makes outbound connections only, and exposes a narrow read-only tool (e.g. fetch_flagged_transactions(week)) rather than raw SQL. DB credentials go in a vault, and the environment's network is limited to that connector.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 2,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "Our transaction DB sits inside our VPC. The agent runs in the cloud, so it just couldn't reach it and I gave up.",
+     "author": "Aisha (Ledgerline)",
+     "source": "call",
+     "link": "calls/aisha/transcript.md#Q3",
+     "evidence_id": "call:aisha:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "I wasn't comfortable opening the database up to the internet just to test an idea, so it stopped there.",
+     "author": "Aisha (Ledgerline)",
+     "source": "call",
+     "link": "calls/aisha/transcript.md#Q3",
+     "evidence_id": "call:aisha:Q3",
+     "verbatim": true
+    },
+    {
+     "text": "a manual export every week defeats the purpose, so I stopped there.",
+     "author": "Aisha (Ledgerline)",
+     "source": "call",
+     "link": "calls/aisha/transcript.md#Q4",
+     "evidence_id": "call:aisha:Q4",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 8,
+   "id": "session-file-retrieval",
+   "name": "Can't get output files out of a finished session",
+   "kind": "blocker",
+   "pain": "The agent reports that it wrote a file to outputs, but the founder can't work out how to download it after the session ends. The docs' mention of \"scope\" doesn't help.",
+   "primitives": [
+    "files API"
+   ],
+   "founder_count": 1,
+   "founders": [
+    "Maya Lin (Orbit Health)"
+   ],
+   "stopped_count": 0,
+   "stopped": [],
+   "sources": [
+    "linear"
+   ],
+   "fix_type": "Doc",
+   "fix": "Add an end-to-end \"Get files out of a session\" example to the files API docs: agent writes to outputs, then list the session's files, then download after the session ends. Explain file scope (session-scoped vs persisted) in plain language, with the exact call for each.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 1,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "The agent says it wrote report.pdf to outputs, but I can't work out how to download it after the session.",
+     "author": "Maya Lin (Orbit Health)",
+     "source": "linear",
+     "link": "FFD-4",
+     "evidence_id": "FFD-4",
+     "verbatim": true
+    },
+    {
+     "text": "The docs mention a scope thing I don't get.",
+     "author": "Maya Lin (Orbit Health)",
+     "source": "linear",
+     "link": "FFD-4",
+     "evidence_id": "FFD-4",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 9,
+   "id": "sandbox-dependencies",
+   "name": "Sandbox dependency setup eats the first day",
+   "kind": "blocker",
+   "pain": "Common Python packages are missing from the sandbox, and installing them times out.",
+   "primitives": [
+    "environment"
+   ],
+   "founder_count": 1,
+   "founders": [
+    "Lena Hoffmann (Parcelwise)"
+   ],
+   "stopped_count": 0,
+   "stopped": [],
+   "sources": [
+    "notion"
+   ],
+   "fix_type": "API change",
+   "fix": "Let environments declare packages (a requirements list) that are installed once at environment build and cached across sessions, with a longer install timeout. Preinstall common data libraries (pandas, numpy) in the default image.",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 1,
+   "uncounted_context": [],
+   "paraphrase_note": null,
+   "uncounted_support": null,
+   "quotes": [
+    {
+     "text": "Half my first day was fighting pip.",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "source": "notion",
+     "link": "notion-001",
+     "evidence_id": "notion-001",
+     "verbatim": true
+    },
+    {
+     "text": "The sandbox didn't have pandas and the install kept timing out.",
+     "author": "Lena Hoffmann (Parcelwise)",
+     "source": "notion",
+     "link": "notion-001",
+     "evidence_id": "notion-001",
+     "verbatim": true
+    }
+   ]
+  },
+  {
+   "rank": 10,
+   "id": "human-approval-gate",
+   "name": "Must have a human approve before the agent acts externally",
+   "kind": "requirement",
+   "pain": "A hard requirement, not a failure. In regulated work nothing can leave without a human reading it, and the founder must be able to explain what the agent did.",
+   "primitives": [
+    "permission policy",
+    "files API"
+   ],
+   "founder_count": 1,
+   "founders": [
+    "Aisha (Ledgerline)"
+   ],
+   "stopped_count": 0,
+   "stopped": [],
+   "sources": [
+    "call"
+   ],
+   "fix_type": "Doc / skill",
+   "fix": "Publish a \"Draft, then approve\" pattern doc and skill: a permission policy with no outbound-send tool (or one that requires human confirmation), the deliverable written as a draft file via the files API, and an outcome defined as \"draft ready for review\" rather than \"sent\".",
+   "first_seen": "2026-09-23",
+   "last_seen": "2026-09-23",
+   "status_vs_last_run": "new",
+   "evidence_items_founder_words": 2,
+   "uncounted_context": [
+    "notion-006"
+   ],
+   "paraphrase_note": null,
+   "uncounted_support": "Mentor observation notion-006 (unnamed teams, not counted) says the same theme recurs across teams. Priya's definition of done also keeps the final send with her, but she did not raise it as a problem, so she is not counted.",
+   "quotes": [
+    {
+     "text": "Nothing goes to the regulator without me reading it. If the agent could send on its own, legal would shut it down on day one.",
+     "author": "Aisha (Ledgerline)",
+     "source": "call",
+     "link": "calls/aisha/transcript.md#Q2",
+     "evidence_id": "call:aisha:Q2",
+     "verbatim": true
+    },
+    {
+     "text": "anything touching our data or our regulator has to be something I can explain and stand behind.",
+     "author": "Aisha (Ledgerline)",
+     "source": "call",
+     "link": "calls/aisha/transcript.md#Q8",
+     "evidence_id": "call:aisha:Q8",
+     "verbatim": true
+    }
+   ]
+  }
+ ],
+ "founders_per_cluster": [
+  {
+   "rank": 1,
+   "id": "silent-run-failures",
+   "name": "Failed or stalled runs fail silently: nobody gets told",
+   "kind": "blocker",
+   "founders": 3,
+   "stopped": 1
+  },
+  {
+   "rank": 2,
+   "id": "stale-recurring-runs",
+   "name": "Recurring runs repeat stale work: no per-run 'today' and no memory of earlier runs",
+   "kind": "blocker",
+   "founders": 2,
+   "stopped": 1
+  },
+  {
+   "rank": 3,
+   "id": "run-opacity",
+   "name": "Can't reconstruct what a run did, which agent did it, or what it cost",
+   "kind": "blocker",
+   "founders": 2,
+   "stopped": 1
+  },
+  {
+   "rank": 4,
+   "id": "secrets-in-prompt",
+   "name": "No obvious place for API keys, so they end up in the prompt",
+   "kind": "blocker",
+   "founders": 2,
+   "stopped": 0
+  },
+  {
+   "rank": 5,
+   "id": "no-quality-scoreboard",
+   "name": "No way to score agent quality over time or across changes",
+   "kind": "blocker",
+   "founders": 2,
+   "stopped": 0
+  },
+  {
+   "rank": 6,
+   "id": "runaway-spend",
+   "name": "Runaway run: no spend cap or stopping point",
+   "kind": "blocker",
+   "founders": 1,
+   "stopped": 1
+  },
+  {
+   "rank": 7,
+   "id": "private-network-data",
+   "name": "Agent can't reach data inside the company's private network (VPC)",
+   "kind": "blocker",
+   "founders": 1,
+   "stopped": 1
+  },
+  {
+   "rank": 8,
+   "id": "session-file-retrieval",
+   "name": "Can't get output files out of a finished session",
+   "kind": "blocker",
+   "founders": 1,
+   "stopped": 0
+  },
+  {
+   "rank": 9,
+   "id": "sandbox-dependencies",
+   "name": "Sandbox dependency setup eats the first day",
+   "kind": "blocker",
+   "founders": 1,
+   "stopped": 0
+  },
+  {
+   "rank": 10,
+   "id": "human-approval-gate",
+   "name": "Must have a human approve before the agent acts externally",
+   "kind": "requirement",
+   "founders": 1,
+   "stopped": 0
+  }
+ ],
+ "pains_by_primitive": {
+  "note": "Blocker clusters only (requirement cluster excluded). A founder counts once per primitive, and only where their own evidence implicates it (clusters.json primitive_founders).",
+  "tally": [
+   {
+    "primitive": "deployment",
+    "distinct_founders_blocked": 4,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     1,
+     2
+    ],
+    "founders": [
+     "Jonas Weber (Freightly)",
+     "Lena Hoffmann (Parcelwise)",
+     "Maya Lin (Orbit Health)",
+     "Priya (Lumen Skin)"
+    ],
+    "founders_stopped_list": [
+     "Priya (Lumen Skin)"
+    ]
+   },
+   {
+    "primitive": "session",
+    "distinct_founders_blocked": 4,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     1,
+     3
+    ],
+    "founders": [
+     "Ben (climate-investor newsletter)",
+     "Jonas Weber (Freightly)",
+     "Maya Lin (Orbit Health)",
+     "Tomas (Patchwork)"
+    ],
+    "founders_stopped_list": [
+     "Tomas (Patchwork)"
+    ]
+   },
+   {
+    "primitive": "MCP connector",
+    "distinct_founders_blocked": 3,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     4,
+     7
+    ],
+    "founders": [
+     "Aisha (Ledgerline)",
+     "Priya (Lumen Skin)",
+     "Sam Ortiz (Tallybook)"
+    ],
+    "founders_stopped_list": [
+     "Aisha (Ledgerline)"
+    ]
+   },
+   {
+    "primitive": "outcome",
+    "distinct_founders_blocked": 3,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     5,
+     6
+    ],
+    "founders": [
+     "Ben (climate-investor newsletter)",
+     "Dev Patel (Quillstack)",
+     "Omar Haddad (Stackly)"
+    ],
+    "founders_stopped_list": [
+     "Ben (climate-investor newsletter)"
+    ]
+   },
+   {
+    "primitive": "vault",
+    "distinct_founders_blocked": 3,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     4,
+     7
+    ],
+    "founders": [
+     "Aisha (Ledgerline)",
+     "Priya (Lumen Skin)",
+     "Sam Ortiz (Tallybook)"
+    ],
+    "founders_stopped_list": [
+     "Aisha (Ledgerline)"
+    ]
+   },
+   {
+    "primitive": "webhooks",
+    "distinct_founders_blocked": 3,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     1
+    ],
+    "founders": [
+     "Jonas Weber (Freightly)",
+     "Maya Lin (Orbit Health)",
+     "Tomas (Patchwork)"
+    ],
+    "founders_stopped_list": [
+     "Tomas (Patchwork)"
+    ]
+   },
+   {
+    "primitive": "environment",
+    "distinct_founders_blocked": 2,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     7,
+     9
+    ],
+    "founders": [
+     "Aisha (Ledgerline)",
+     "Lena Hoffmann (Parcelwise)"
+    ],
+    "founders_stopped_list": [
+     "Aisha (Ledgerline)"
+    ]
+   },
+   {
+    "primitive": "agent",
+    "distinct_founders_blocked": 2,
+    "founders_stopped": 0,
+    "cluster_ranks": [
+     5
+    ],
+    "founders": [
+     "Dev Patel (Quillstack)",
+     "Omar Haddad (Stackly)"
+    ],
+    "founders_stopped_list": []
+   },
+   {
+    "primitive": "budget",
+    "distinct_founders_blocked": 1,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     3,
+     6
+    ],
+    "founders": [
+     "Ben (climate-investor newsletter)"
+    ],
+    "founders_stopped_list": [
+     "Ben (climate-investor newsletter)"
+    ]
+   },
+   {
+    "primitive": "multiagent",
+    "distinct_founders_blocked": 1,
+    "founders_stopped": 1,
+    "cluster_ranks": [
+     1,
+     3
+    ],
+    "founders": [
+     "Tomas (Patchwork)"
+    ],
+    "founders_stopped_list": [
+     "Tomas (Patchwork)"
+    ]
+   },
+   {
+    "primitive": "files API",
+    "distinct_founders_blocked": 1,
+    "founders_stopped": 0,
+    "cluster_ranks": [
+     8
+    ],
+    "founders": [
+     "Maya Lin (Orbit Health)"
+    ],
+    "founders_stopped_list": []
+   },
+   {
+    "primitive": "memory store",
+    "distinct_founders_blocked": 1,
+    "founders_stopped": 0,
+    "cluster_ranks": [
+     2
+    ],
+    "founders": [
+     "Lena Hoffmann (Parcelwise)"
+    ],
+    "founders_stopped_list": []
+   },
+   {
+    "primitive": "permission policy",
+    "distinct_founders_blocked": 0,
+    "founders_stopped": 0,
+    "cluster_ranks": [],
+    "founders": [],
+    "founders_stopped_list": []
+   },
+   {
+    "primitive": "skill",
+    "distinct_founders_blocked": 0,
+    "founders_stopped": 0,
+    "cluster_ranks": [],
+    "founders": [],
+    "founders_stopped_list": []
+   }
+  ],
+  "requirement_clusters": [
+   {
+    "cluster_id": "human-approval-gate",
+    "rank": 10,
+    "primitives": [
+     "permission policy",
+     "files API"
+    ],
+    "founder_count": 1
+   }
+  ]
+ },
+ "pains_by_source": {
+  "call": {
+   "clusters": 7,
+   "blocker_clusters": 6,
+   "clusters_only_from_this_source": 4,
+   "founders": 4,
+   "quotes": 19,
+   "cluster_ids": [
+    "silent-run-failures",
+    "stale-recurring-runs",
+    "run-opacity",
+    "secrets-in-prompt",
+    "runaway-spend",
+    "private-network-data",
+    "human-approval-gate"
+   ]
+  },
+  "linear": {
+   "clusters": 4,
+   "blocker_clusters": 4,
+   "clusters_only_from_this_source": 1,
+   "founders": 4,
+   "quotes": 7,
+   "cluster_ids": [
+    "silent-run-failures",
+    "secrets-in-prompt",
+    "no-quality-scoreboard",
+    "session-file-retrieval"
+   ]
+  },
+  "notion": {
+   "clusters": 3,
+   "blocker_clusters": 3,
+   "clusters_only_from_this_source": 1,
+   "founders": 2,
+   "quotes": 4,
+   "cluster_ids": [
+    "stale-recurring-runs",
+    "no-quality-scoreboard",
+    "sandbox-dependencies"
+   ]
+  }
+ },
+ "evidence_by_source": {
+  "call": {
+   "total": 18,
+   "founder_words": 17,
+   "linked_to_a_cluster": 14,
+   "with_timestamp": 0,
+   "by_type": {
+    "founder_answer": 17,
+    "non_problem": 1
+   },
+   "files": [
+    "evidence/call-nonproblems.jsonl",
+    "evidence/call.jsonl"
+   ]
+  },
+  "linear": {
+   "total": 5,
+   "founder_words": 5,
+   "linked_to_a_cluster": 5,
+   "with_timestamp": 5,
+   "by_type": {
+    "founder_ticket": 5
+   },
+   "files": [
+    "evidence/linear-evidence.json"
+   ]
+  },
+  "notion": {
+   "total": 6,
+   "founder_words": 3,
+   "linked_to_a_cluster": 3,
+   "with_timestamp": 0,
+   "by_type": {
+    "founder_quote": 3,
+    "mentor_observation": 2,
+    "note_taker_paraphrase": 1
+   },
+   "files": [
+    "evidence/notion-evidence.json"
+   ]
+  }
+ },
+ "cluster_status_vs_last_run": {
+  "counts": {
+   "new": 10,
+   "growing": 0,
+   "unchanged": 0
+  },
+  "basis": "Pain-library history. Every cluster file was created in this run (first_seen = last_seen = eval-2026-09-23) and the miner's journal says the library was empty at the start, so there is no earlier run to compare against. Every cluster counts as new."
+ },
+ "founders": [
+  {
+   "founder": "Aisha (Ledgerline)",
+   "name": "Aisha",
+   "company": "Ledgerline",
+   "sources": [
+    "call"
+   ],
+   "has_brief": true,
+   "brief_path": "briefs/aisha.md",
+   "stopped_or_paused": true,
+   "clusters": [
+    7,
+    10
+   ]
+  },
+  {
+   "founder": "Ben (climate-investor newsletter)",
+   "name": "Ben",
+   "company": "climate-investor newsletter",
+   "sources": [
+    "call"
+   ],
+   "has_brief": true,
+   "brief_path": "briefs/ben.md",
+   "stopped_or_paused": true,
+   "clusters": [
+    3,
+    6
+   ]
+  },
+  {
+   "founder": "Priya (Lumen Skin)",
+   "name": "Priya",
+   "company": "Lumen Skin",
+   "sources": [
+    "call"
+   ],
+   "has_brief": true,
+   "brief_path": "briefs/priya.md",
+   "stopped_or_paused": true,
+   "clusters": [
+    2,
+    4
+   ]
+  },
+  {
+   "founder": "Tomas (Patchwork)",
+   "name": "Tomas",
+   "company": "Patchwork",
+   "sources": [
+    "call"
+   ],
+   "has_brief": true,
+   "brief_path": "briefs/tomas.md",
+   "stopped_or_paused": true,
+   "clusters": [
+    1,
+    3
+   ]
+  },
+  {
+   "founder": "Dev Patel (Quillstack)",
+   "name": "Dev Patel",
+   "company": "Quillstack",
+   "sources": [
+    "linear"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    5
+   ]
+  },
+  {
+   "founder": "Jonas Weber (Freightly)",
+   "name": "Jonas Weber",
+   "company": "Freightly",
+   "sources": [
+    "linear"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    1
+   ]
+  },
+  {
+   "founder": "Lena Hoffmann (Parcelwise)",
+   "name": "Lena Hoffmann",
+   "company": "Parcelwise",
+   "sources": [
+    "notion"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    2,
+    9
+   ]
+  },
+  {
+   "founder": "Maya Lin (Orbit Health)",
+   "name": "Maya Lin",
+   "company": "Orbit Health",
+   "sources": [
+    "linear"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    1,
+    8
+   ]
+  },
+  {
+   "founder": "Omar Haddad (Stackly)",
+   "name": "Omar Haddad",
+   "company": "Stackly",
+   "sources": [
+    "notion"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    5
+   ]
+  },
+  {
+   "founder": "Sam Ortiz (Tallybook)",
+   "name": "Sam Ortiz",
+   "company": "Tallybook",
+   "sources": [
+    "linear"
+   ],
+   "has_brief": false,
+   "brief_path": null,
+   "stopped_or_paused": false,
+   "clusters": [
+    4
+   ]
+  }
+ ],
+ "coverage": {
+  "founders_with_brief": 4,
+  "founders_without_brief": 6,
+  "founders_total": 10,
+  "founders_in_at_least_one_cluster": 10,
+  "sources_with_zero_items": [],
+  "founder_evidence_not_linked_to_any_cluster": [
+   {
+    "id": "call:aisha:Q5",
+    "author": "Aisha (Ledgerline)",
+    "link": "calls/aisha/transcript.md#Q5"
+   },
+   {
+    "id": "call:aisha:Q6",
+    "author": "Aisha (Ledgerline)",
+    "link": "calls/aisha/transcript.md#Q6"
+   },
+   {
+    "id": "call:ben:Q6",
+    "author": "Ben (climate-investor newsletter)",
+    "link": "calls/ben/transcript.md#Q6"
+   }
+  ],
+  "uncounted_evidence": [
+   {
+    "id": "notion-004",
+    "evidence_type": "note_taker_paraphrase",
+    "author": "Omar Haddad (Stackly)",
+    "text": "Wants to show investors the agent is improving but has no numbers.",
+    "attached_to": "no-quality-scoreboard"
+   },
+   {
+    "id": "notion-005",
+    "evidence_type": "mentor_observation",
+    "author": "mentor notes",
+    "text": "Several teams asked about scheduling but none had tried the manual run endpoint.",
+    "attached_to": null
+   },
+   {
+    "id": "notion-006",
+    "evidence_type": "mentor_observation",
+    "author": "mentor notes",
+    "text": "Recurring theme: people want the agent to act, but only after a human says yes.",
+    "attached_to": "human-approval-gate"
+   }
+  ],
+  "explicit_non_problems": [
+   {
+    "founder": "Tomas (Patchwork)",
+    "topic": "multiagent architecture / handoffs",
+    "link": "calls/tomas/transcript.md#Q5",
+    "evidence_id": "call:tomas:Q5",
+    "evidence_file": "evidence/call-nonproblems.jsonl"
+   },
+   {
+    "founder": "Aisha (Ledgerline)",
+    "topic": "draft quality on sample data",
+    "link": "calls/aisha/transcript.md#Q5",
+    "evidence_id": "call:aisha:Q5",
+    "evidence_file": "evidence/call.jsonl"
+   }
+  ],
+  "items_with_timestamp": 5,
+  "items_without_timestamp": 24,
+  "timestamp_range": [
+   "2026-09-21",
+   "2026-09-23"
+  ]
+ },
+ "verification": {
+  "evidence_vs_raw_sources": {
+   "call_items_verbatim": 18,
+   "linear_items_verbatim": 5,
+   "notion_items_verbatim": 6,
+   "failed": []
+  },
+  "file_layout": {
+   "needs_briefs_map_in_clusters_json": true,
+   "briefs": {
+    "aisha": {
+     "path": "briefs/aisha.md",
+     "exists": true,
+     "in_map": true,
+     "identical_to_legacy": true
+    },
+    "ben": {
+     "path": "briefs/ben.md",
+     "exists": true,
+     "in_map": true,
+     "identical_to_legacy": true
+    },
+    "priya": {
+     "path": "briefs/priya.md",
+     "exists": true,
+     "in_map": true,
+     "identical_to_legacy": true
+    },
+    "tomas": {
+     "path": "briefs/tomas.md",
+     "exists": true,
+     "in_map": true,
+     "identical_to_legacy": true
+    }
+   },
+   "transcript_copies": {
+    "aisha": {
+     "path": "calls/aisha.md",
+     "exists": true,
+     "identical_to_calls_slug_transcript": true
+    },
+    "ben": {
+     "path": "calls/ben.md",
+     "exists": true,
+     "identical_to_calls_slug_transcript": true
+    },
+    "priya": {
+     "path": "calls/priya.md",
+     "exists": true,
+     "identical_to_calls_slug_transcript": true
+    },
+    "tomas": {
+     "path": "calls/tomas.md",
+     "exists": true,
+     "identical_to_calls_slug_transcript": true
+    }
+   }
+  },
+  "report_checks": {
+   "distinct_founders": 10,
+   "clusters": 10,
+   "glance_rows": 10,
+   "primitive_rows": 14,
+   "primitive_tally_section_line": 316,
+   "primitive_tally_section_is_last": true,
+   "report_blockquotes": 33,
+   "report_blockquotes_verbatim": 33,
+   "clusters_with_identical_quotes_in_report_and_json": 10,
+   "stopped_sentence": "Four"
+  },
+  "mismatches": [],
+  "data_quality_notes": [
+   "FFD-2: evidence text is a verbatim excerpt, not the full ticket description (lead-in trimmed by the Linear scout, as its notes say)",
+   "founder 'Ben (climate-investor newsletter)': transcript header is 'Discovery call transcript: Ben'. The company label is a descriptor added downstream, not a company name from the call",
+   "non-problem Aisha (Ledgerline) (calls/aisha/transcript.md#Q5) is stored in evidence/call.jsonl, not in evidence/call-nonproblems.jsonl, which holds only Tomas Q5"
+  ]
+ },
+ "table_rows": {
+  "cluster_evidence": 27,
+  "cluster_founders": 16,
+  "cluster_primitives": 22,
+  "clusters": 10,
+  "evidence": 29,
+  "founders": 10,
+  "non_problems": 2,
+  "primitive_founders": 33,
+  "quotes": 30
+ }
+}

@@ -1,0 +1,7 @@
+[
+  {"source": "linear", "author": "Maya Lin (Orbit Health)", "timestamp": "2026-09-21T08:12:00Z", "text": "Our scheduled agent errored at 2am. We only found out when the team asked where the report was. Is there any way to get pinged when a run fails?", "link": "FFD-1"},
+  {"source": "linear", "author": "Jonas Weber (Freightly)", "timestamp": "2026-09-22T10:40:00Z", "text": "I need to know when the cron run breaks. Right now I check the console by hand every morning.", "link": "FFD-2"},
+  {"source": "linear", "author": "Sam Ortiz (Tallybook)", "timestamp": "2026-09-22T14:05:00Z", "text": "I need the agent to call our billing API. I don't want the key in the prompt. What's the right place to put it so the agent can use it but can't leak it?", "link": "FFD-3"},
+  {"source": "linear", "author": "Maya Lin (Orbit Health)", "timestamp": "2026-09-22T16:30:00Z", "text": "The agent says it wrote report.pdf to outputs, but I can't work out how to download it after the session. The docs mention a scope thing I don't get.", "link": "FFD-4"},
+  {"source": "linear", "author": "Dev Patel (Quillstack)", "timestamp": "2026-09-23T09:15:00Z", "text": "We changed the instructions last week and I have a feeling the output got worse, but I can't prove it. Is there a standard way to score runs over time?", "link": "FFD-5"}
+]

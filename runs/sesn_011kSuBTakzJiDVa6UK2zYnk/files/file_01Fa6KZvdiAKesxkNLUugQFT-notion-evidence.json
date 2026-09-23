@@ -1,0 +1,68 @@
+{
+  "source": "notion",
+  "page": "/mnt/session/uploads/notion/office-hours-notes.md",
+  "page_title": "Office hours notes: managed agents founders",
+  "pages_read": 1,
+  "items": [
+    {
+      "id": "notion-001",
+      "source": "notion",
+      "author": "Lena Hoffmann (Parcelwise)",
+      "timestamp": null,
+      "text": "\"Half my first day was fighting pip. The sandbox didn't have pandas and the install kept timing out.\"",
+      "evidence_type": "founder_quote",
+      "context": "Building a daily shipping-exceptions summariser.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#session-with-lena-hoffmann-parcelwise (line 7)"
+    },
+    {
+      "id": "notion-002",
+      "source": "notion",
+      "author": "Lena Hoffmann (Parcelwise)",
+      "timestamp": null,
+      "text": "\"It doesn't remember which carriers we already escalated, so it re-flags them every day.\"",
+      "evidence_type": "founder_quote",
+      "context": "Building a daily shipping-exceptions summariser.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#session-with-lena-hoffmann-parcelwise (line 8)"
+    },
+    {
+      "id": "notion-003",
+      "source": "notion",
+      "author": "Omar Haddad (Stackly)",
+      "timestamp": null,
+      "text": "\"I have no scoreboard. I tweak something, eyeball two outputs, and hope.\"",
+      "evidence_type": "founder_quote",
+      "context": "Building a sales-call summariser for his team.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#session-with-omar-haddad-stackly (line 12)"
+    },
+    {
+      "id": "notion-004",
+      "source": "notion",
+      "author": "Omar Haddad (Stackly)",
+      "timestamp": null,
+      "text": "Wants to show investors the agent is improving but has no numbers.",
+      "evidence_type": "note_taker_paraphrase",
+      "context": "Mentor's paraphrase of what Omar said in session; not a direct quote.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#session-with-omar-haddad-stackly (line 13)"
+    },
+    {
+      "id": "notion-005",
+      "source": "notion",
+      "author": "mentor notes",
+      "timestamp": null,
+      "text": "Several teams asked about scheduling but none had tried the manual run endpoint.",
+      "evidence_type": "mentor_observation",
+      "context": "Aggregate across unnamed teams; no founder attribution possible. Do not count toward founder counts.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#mentor-takeaways (line 16)"
+    },
+    {
+      "id": "notion-006",
+      "source": "notion",
+      "author": "mentor notes",
+      "timestamp": null,
+      "text": "Recurring theme: people want the agent to act, but only after a human says yes.",
+      "evidence_type": "mentor_observation",
+      "context": "Aggregate across unnamed teams; no founder attribution possible. Do not count toward founder counts.",
+      "link": "/mnt/session/uploads/notion/office-hours-notes.md#mentor-takeaways (line 17)"
+    }
+  ]
+}

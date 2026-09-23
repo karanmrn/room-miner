@@ -1,0 +1,2 @@
+run_at,case,session,agent_version,outcome,trace_pass,recall,fabricated_quotes,relay_exact,tokens_in,tokens_out,cost_usd,active_s,cost_per_recalled_pain
+2026-09-23T16:14:57+00:00,case-01,sesn_011kSuBTakzJiDVa6UK2zYnk,3,satisfied,False,0.917,0,6/6,11456039,189036,9.33,1373,0.848

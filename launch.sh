@@ -241,16 +241,9 @@ print()
 PY
 }
 
-step_outputs() {
-  local sid=${1:-$SESSION_ID}; mkdir -p "runs/$sid"
-  api GET "/files?scope_id=$sid"
-  python3 -c "import json; d=json.load(open('$TMP/resp.json')); [print(x['id'], x['filename']) for x in d['data']]" | while read -r id name; do
-    [ -z "$id" ] && continue
-    mkdir -p "runs/$sid/$(dirname "$name")"
-    curl -sS "$BASE/files/$id/content" -o "runs/$sid/$name" \
-      -H "x-api-key: $ANTHROPIC_API_KEY" -H "anthropic-version: 2023-06-01" -H "anthropic-beta: managed-agents-2026-04-01"
-    echo "⬇️  runs/$sid/$name"
-  done
+step_outputs() {  # download every output file (all pages), then sort them back into calls/ briefs/ evidence/
+  local sid=${1:-$SESSION_ID}
+  python3 evals/fetch_outputs.py "$sid"
 }
 
 step_deploy() {  # nightly room-sweep (chief of staff, SWEEP) + room-retro (retro), Europe/London
